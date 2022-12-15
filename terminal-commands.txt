@@ -1,0 +1,25 @@
+#create new react-native expo app with TS
+npx create-expo-app News71 --template
+
+#install react-devtools
+npm i react-devtools
+
+#use this to make react-devtools to debug on port 19000 also
+adb devices
+adb -s <device-name> reverse tcp:8097 tcp:8097
+
+
+#install redux-toolkit and react-redux
+npm install @reduxjs/toolkit react-redux
+
+#Error: could not connect to TCP port 5554: cannot connect to 127.0.0.1:5554: No connection could be made because the target machine actively refused it. (10061)
+adb devices
+adb -s <device-name> reverse tcp:8097 tcp:8097
+
+#install NativeBase components
+npm install native-base
+expo install react-native-svg@12.1.1 
+expo install react-native-safe-area-context@3.3.2  
+
+#install babel-module-resolver for aliasing
+npm i babel-plugin-module-resolver
