@@ -9,7 +9,7 @@ type Props = {
 
 export const TopStoriesListItem = ({ story }: Props) => {
   return (
-    <Card style={style.itemContainer} shadow={1}>
+    <Card style={style.itemContainer}>
       <Box>
         <Image
           source={{
@@ -30,8 +30,11 @@ const style = StyleSheet.create({
     flexDirection: "row",
     borderRadius: 15,
     marginVertical: 3,
-    width: "100%",
     overflow: "hidden",
+    borderWidth: 1,
+    borderColor: "lightgray",
+    backgroundColor: "white",
+    elevation: 3,
   },
   image: {
     width: 150,

@@ -1,7 +1,7 @@
 import { Section } from '@models';
 import { Center } from 'native-base';
 import { useCallback, useState } from 'react';
-import { ActivityIndicator, SafeAreaView, StatusBar, StyleSheet } from 'react-native';
+import { ActivityIndicator } from 'react-native';
 
 import { useGetTopStoriesQuery } from '../../store/apis';
 import { SectionsMenu } from './SectionsMenu';
@@ -18,7 +18,7 @@ export const TopStories = () => {
   }, []);
 
   return (
-    <SafeAreaView style={style.container}>
+    <>
       <SectionsMenu
         selectedSection={selectedSection}
         onSelectSection={onSelectSection}
@@ -30,13 +30,6 @@ export const TopStories = () => {
       ) : (
         <TopStoriesList stories={data.results} />
       )}
-    </SafeAreaView>
+    </>
   );
 };
-
-const style = StyleSheet.create({
-  container: {
-    flex: 1,
-    marginTop: StatusBar.currentHeight,
-  },
-});

@@ -1,27 +1,20 @@
-import { TopStories } from '@modules';
+import { NavigationContainer } from '@react-navigation/native';
 import { StatusBar } from 'expo-status-bar';
 import { NativeBaseProvider } from 'native-base';
-import { StyleSheet, View } from 'react-native';
 import { Provider } from 'react-redux';
 
+import { StackNavigation } from './StackNavigation';
 import { store } from './store';
 
 export default function App() {
   return (
     <NativeBaseProvider>
       <Provider store={store}>
-        <View style={styles.container}>
-          <StatusBar style="auto" />
-          <TopStories />
-        </View>
+        <NavigationContainer>
+          <StackNavigation />
+        </NavigationContainer>
+        <StatusBar style="light" />
       </Provider>
     </NativeBaseProvider>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#fff",
-  },
-});
