@@ -1,5 +1,5 @@
 import { Section } from '@models';
-import { Center } from 'native-base';
+import { Center, useTheme } from 'native-base';
 import { useCallback, useState } from 'react';
 import { ActivityIndicator } from 'react-native';
 
@@ -17,6 +17,8 @@ export const TopStories = () => {
     setSelectedSection(section);
   }, []);
 
+  const { colors } = useTheme();
+
   return (
     <>
       <SectionsMenu
@@ -25,7 +27,7 @@ export const TopStories = () => {
       />
       {isLoading || isFetching ? (
         <Center h="full" w="full">
-          <ActivityIndicator size={30} />
+          <ActivityIndicator size={50} color={colors.orange[600]} />
         </Center>
       ) : (
         <TopStoriesList stories={data.results} />

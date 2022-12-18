@@ -13,7 +13,7 @@ export const TopStoriesListItem = ({ story }: Props) => {
       <Box>
         <Image
           source={{
-            uri: story.multimedia[0]?.url,
+            uri: story.multimedia?.[0]?.url,
           }}
           style={style.image}
         />

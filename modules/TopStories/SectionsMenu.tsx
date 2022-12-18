@@ -23,7 +23,7 @@ export const SectionsMenu = ({ selectedSection, onSelectSection }: Props) => {
                   borderRadius={"lg"}
                   padding={2}
                 >
-                  {value}
+                  {`${value} `}
                 </Badge>
               </Pressable>
             );
