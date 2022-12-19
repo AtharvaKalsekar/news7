@@ -1,5 +1,5 @@
+import { Text } from '@components';
 import * as WebBrowser from 'expo-web-browser';
-import { Text } from 'native-base';
 import { useCallback } from 'react';
 import { Pressable, StyleSheet } from 'react-native';
 
@@ -21,29 +21,10 @@ export const ArticleTextView = ({ title, abstract, byline, url }: Props) => {
         style={({ pressed }) => pressed && { backgroundColor: "#ccc" }}
         onPress={onPress}
       >
-        <Text
-          style={styles.title}
-          _light={{ color: "black" }}
-          _dark={{ color: "white" }}
-        >
-          {title}
-        </Text>
+        <Text style={styles.title}>{title}</Text>
       </Pressable>
-      <Text
-        style={styles.abstract}
-        _light={{ color: "black" }}
-        _dark={{ color: "white" }}
-      >
-        {abstract}
-      </Text>
-      <Text
-        style={styles.byline}
-        _light={{ color: "black" }}
-        _dark={{ color: "white" }}
-      >
-        {" "}
-        - {byline}
-      </Text>
+      <Text style={styles.abstract}>{abstract}</Text>
+      <Text style={styles.byline}> - {byline}</Text>
     </>
   );
 };

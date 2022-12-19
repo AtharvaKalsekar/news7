@@ -1,8 +1,8 @@
-import { Card } from '@components';
+import { Card, Text } from '@components';
 import { Article } from '@models';
 import { useNavigation } from '@react-navigation/native';
 import { Screens } from '@screens';
-import { Box, Text } from 'native-base';
+import { Box } from 'native-base';
 import { useCallback } from 'react';
 import { Image, Pressable, StyleSheet } from 'react-native';
 import { StackNavProps } from 'StackNavigation';
@@ -48,13 +48,7 @@ export const TopStoriesListItem = ({ story }: Props) => {
           _light={{ backgroundColor: "white" }}
           _dark={{ backgroundColor: "gray.800" }}
         >
-          <Text
-            style={style.title}
-            _light={{ color: "black" }}
-            _dark={{ color: "white" }}
-          >
-            {story.title}
-          </Text>
+          <Text style={style.title}>{story.title}</Text>
         </Box>
       </Card>
     </Pressable>
