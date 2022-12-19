@@ -27,3 +27,6 @@ npm i babel-plugin-module-resolver
 #install react-navigation
 npm i @react-navigation/native @react-navigation/native-stack
 npm install react-native-screens react-native-safe-area-context
+
+#install expo-web-browser for in app browser page
+npx expo install expo-web-browser

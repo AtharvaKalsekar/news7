@@ -1,49 +1,63 @@
 import { Card } from '@components';
 import { Article } from '@models';
+import { useNavigation } from '@react-navigation/native';
+import { Screens } from '@screens';
 import { Box, Text } from 'native-base';
-import { Image, StyleSheet } from 'react-native';
+import { useCallback } from 'react';
+import { Image, Pressable, StyleSheet } from 'react-native';
+import { StackNavProps } from 'StackNavigation';
 
 type Props = {
   story: Article;
 };
 
 export const TopStoriesListItem = ({ story }: Props) => {
+  const { navigate } = useNavigation<StackNavProps>();
+
+  const onPress = useCallback(() => {
+    navigate(Screens.ARTICLE, {
+      ...story,
+    });
+  }, [navigate, story]);
+
   return (
-    <Card
-      style={style.itemContainer}
-      _light={{
-        backgroundColor: "white",
-        _text: { color: "black" },
-        borderColor: "gray.400",
-      }}
-      _dark={{
-        backgroundColor: "gray.700",
-        _text: { color: "white" },
-        borderColor: "gray.600",
-      }}
-    >
-      <Box>
-        <Image
-          source={{
-            uri: story.multimedia?.[0]?.url,
-          }}
-          style={style.image}
-        />
-      </Box>
-      <Box
-        style={style.textContainer}
-        _light={{ backgroundColor: "white" }}
-        _dark={{ backgroundColor: "gray.800" }}
+    <Pressable onPress={onPress}>
+      <Card
+        style={style.itemContainer}
+        _light={{
+          backgroundColor: "white",
+          _text: { color: "black" },
+          borderColor: "gray.400",
+        }}
+        _dark={{
+          backgroundColor: "gray.700",
+          _text: { color: "white" },
+          borderColor: "gray.600",
+        }}
       >
-        <Text
-          style={style.title}
-          _light={{ color: "black" }}
-          _dark={{ color: "white" }}
+        <Box>
+          <Image
+            source={{
+              uri: story.multimedia?.[0]?.url,
+            }}
+            style={style.image}
+          />
+        </Box>
+        <Box
+          style={style.textContainer}
+          _light={{ backgroundColor: "white" }}
+          _dark={{ backgroundColor: "gray.800" }}
         >
-          {story.title}
-        </Text>
-      </Box>
-    </Card>
+          <Text
+            style={style.title}
+            _light={{ color: "black" }}
+            _dark={{ color: "white" }}
+          >
+            {story.title}
+          </Text>
+        </Box>
+      </Card>
+    </Pressable>
   );
 };
 
