@@ -1,7 +1,7 @@
 import { Card } from '@components';
 import { Article } from '@models';
-import { Box } from 'native-base';
-import { Image, StyleSheet, Text } from 'react-native';
+import { Box, Text } from 'native-base';
+import { Image, StyleSheet } from 'react-native';
 
 type Props = {
   story: Article;
@@ -9,7 +9,19 @@ type Props = {
 
 export const TopStoriesListItem = ({ story }: Props) => {
   return (
-    <Card style={style.itemContainer}>
+    <Card
+      style={style.itemContainer}
+      _light={{
+        backgroundColor: "white",
+        _text: { color: "black" },
+        borderColor: "gray.400",
+      }}
+      _dark={{
+        backgroundColor: "gray.700",
+        _text: { color: "white" },
+        borderColor: "gray.600",
+      }}
+    >
       <Box>
         <Image
           source={{
@@ -18,8 +30,18 @@ export const TopStoriesListItem = ({ story }: Props) => {
           style={style.image}
         />
       </Box>
-      <Box style={style.textContainer}>
-        <Text style={style.title}>{story.title}</Text>
+      <Box
+        style={style.textContainer}
+        _light={{ backgroundColor: "white" }}
+        _dark={{ backgroundColor: "gray.800" }}
+      >
+        <Text
+          style={style.title}
+          _light={{ color: "black" }}
+          _dark={{ color: "white" }}
+        >
+          {story.title}
+        </Text>
       </Box>
     </Card>
   );
@@ -32,9 +54,6 @@ const style = StyleSheet.create({
     marginVertical: 3,
     overflow: "hidden",
     borderWidth: 1,
-    borderColor: "lightgray",
-    backgroundColor: "white",
-    elevation: 3,
   },
   image: {
     width: 150,

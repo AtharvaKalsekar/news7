@@ -1,11 +1,16 @@
 import { TopStories } from '@modules';
-import { StyleSheet, View } from 'react-native';
+import { Box } from 'native-base';
+import { StyleSheet } from 'react-native';
 
 export const Home = () => {
   return (
-    <View style={styles.container}>
+    <Box
+      style={styles.container}
+      _light={{ background: "white" }}
+      _dark={{ background: "black" }}
+    >
       <TopStories />
-    </View>
+    </Box>
   );
 };
 

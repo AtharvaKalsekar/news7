@@ -1,7 +1,8 @@
 import { Badge, HStack } from '@components';
 import { Section } from '@models';
+import { Box } from 'native-base';
 import { useCallback, useState } from 'react';
-import { Pressable, ScrollView, StyleSheet, View } from 'react-native';
+import { Pressable, ScrollView, StyleSheet } from 'react-native';
 
 type Props = {
   selectedSection: Section;
@@ -10,7 +11,11 @@ type Props = {
 
 export const SectionsMenu = ({ selectedSection, onSelectSection }: Props) => {
   return (
-    <View style={style.scrollView}>
+    <Box
+      style={style.scrollView}
+      _light={{ backgroundColor: "white" }}
+      _dark={{ backgroundColor: "black" }}
+    >
       <ScrollView horizontal>
         <HStack style={style.container} space={3}>
           {Object.entries(Section).map(([key, value]) => {
@@ -22,6 +27,7 @@ export const SectionsMenu = ({ selectedSection, onSelectSection }: Props) => {
                   _text={style.menuItemText}
                   borderRadius={"lg"}
                   padding={2}
+                  borderColor={"orange.700"}
                 >
                   {`${value} `}
                 </Badge>
@@ -30,13 +36,14 @@ export const SectionsMenu = ({ selectedSection, onSelectSection }: Props) => {
           })}
         </HStack>
       </ScrollView>
-    </View>
+    </Box>
   );
 };
 
 const style = StyleSheet.create({
   scrollView: {
-    height: 40,
+    height: 50,
+    paddingVertical: 3,
   },
   container: {
     height: 40,
