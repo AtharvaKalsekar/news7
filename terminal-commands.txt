@@ -30,3 +30,6 @@ npm install react-native-screens react-native-safe-area-context
 
 #install expo-web-browser for in app browser page
 npx expo install expo-web-browser
+
+#install react-hook-form for auth screens
+npm install react-hook-form

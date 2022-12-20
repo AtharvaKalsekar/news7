@@ -1,6 +1,6 @@
 import { Article as TArticle } from '@models';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import { Article, Home, Screens } from '@screens';
+import { Article, Home, Register, Screens } from '@screens';
 import { Switch, useColorMode, useTheme } from 'native-base';
 import { StyleSheet } from 'react-native';
 
@@ -21,7 +21,14 @@ export const StackNavigation = () => {
   return (
     <Stack.Navigator>
       <Stack.Screen
-        name="Home"
+        name={Screens.REGISTER}
+        component={Register}
+        options={{
+          headerShown: false,
+        }}
+      />
+      <Stack.Screen
+        name={Screens.HOME}
         component={Home}
         options={{
           headerStyle: {
@@ -51,7 +58,7 @@ export const StackNavigation = () => {
         }}
       />
       <Stack.Screen
-        name="Article"
+        name={Screens.ARTICLE}
         component={Article}
         options={{
           headerStyle: {
