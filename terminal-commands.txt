@@ -33,3 +33,7 @@ npx expo install expo-web-browser
 
 #install react-hook-form for auth screens
 npm install react-hook-form
+
+#install firebase https://docs.expo.dev/guides/using-firebase/
+npx expo install firebase
+npx expo customize metro.config.js

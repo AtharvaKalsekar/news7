@@ -1,8 +1,11 @@
-import { HStack, Text } from '@components';
-import { Button, Center, FormControl, InfoOutlineIcon, Input, Stack, WarningOutlineIcon } from 'native-base';
+import { Text } from '@components';
+import { createUserWithEmailAndPassword } from 'firebase/auth';
+import { Button, Center, FormControl, Input, Stack, WarningOutlineIcon } from 'native-base';
 import React, { useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
-import { KeyboardAvoidingView, StyleSheet, TouchableOpacity } from 'react-native';
+import { KeyboardAvoidingView, StyleSheet } from 'react-native';
+
+import { auth } from '../../firebase';
 
 export const Register = () => {
   const {
@@ -16,21 +19,32 @@ export const Register = () => {
     },
   });
 
-  const onSubmit = (data: { email: string; password: string }) => {
-    console.log("data", data);
+  const onSubmit = async (data: { email: string; password: string }) => {
+    try {
+      const creds = await createUserWithEmailAndPassword(
+        auth,
+        data.email,
+        data.password
+      );
+      console.log(creds);
+    } catch (error) {
+      console.error("error while regisetring", error);
+    }
   };
 
   return (
     <KeyboardAvoidingView style={styles.container}>
       <Center style={styles.innerContainer}>
-        <FormControl isInvalid={!!errors.email}>
+        <FormControl isInvalid={!!errors.email} marginY={3}>
           <Stack mx="4">
-            <FormControl.Label>Email </FormControl.Label>
+            <FormControl.Label>
+              <Text style={styles.inputLabel}>Email </Text>
+            </FormControl.Label>
             <Controller
               control={control}
               rules={{
                 required: true,
-                pattern: RegExp("/^w+([.-]?w+)*@w+([.-]?w+)*(.ww+)+$/"),
+                // pattern: RegExp("/^w+([.-]?w+)*@w+([.-]?w+)*(.ww+)+$/"),
               }}
               render={({ field: { onChange, onBlur, value } }) => (
                 <Input
@@ -59,9 +73,11 @@ export const Register = () => {
             )}
           </Stack>
         </FormControl>
-        <FormControl isInvalid={!!errors.password}>
+        <FormControl isInvalid={!!errors.password} marginY={3}>
           <Stack mx="4">
-            <FormControl.Label>Password</FormControl.Label>
+            <FormControl.Label>
+              <Text style={styles.inputLabel}>Password</Text>
+            </FormControl.Label>
             <Controller
               control={control}
               rules={{
@@ -74,16 +90,11 @@ export const Register = () => {
                   onChangeText={onChange}
                   value={value}
                   placeholder="Enter password"
+                  type="password"
                 />
               )}
               name="password"
             />
-            <FormControl.HelperText>
-              <HStack style={{ alignItems: "center" }}>
-                <InfoOutlineIcon size="sm" style={{ marginRight: 3 }} />
-                <Text>Must be atleast 8 characters.</Text>
-              </HStack>
-            </FormControl.HelperText>
             {errors.password?.type === "minLength" && (
               <FormControl.ErrorMessage
                 leftIcon={<WarningOutlineIcon size="xs" />}
@@ -100,11 +111,13 @@ export const Register = () => {
             )}
           </Stack>
         </FormControl>
-        <TouchableOpacity onPress={handleSubmit(onSubmit)}>
-          <Button colorScheme={"orange"} style={styles.registerButton}>
-            {"Register "}
-          </Button>
-        </TouchableOpacity>
+        <Button
+          colorScheme={"orange"}
+          style={styles.registerButton}
+          onPress={handleSubmit(onSubmit)}
+        >
+          {"Register "}
+        </Button>
       </Center>
     </KeyboardAvoidingView>
   );
@@ -113,6 +126,10 @@ export const Register = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+  },
+  inputLabel: {
+    fontWeight: "700",
+    color: "black",
   },
   innerContainer: {
     flex: 1,
