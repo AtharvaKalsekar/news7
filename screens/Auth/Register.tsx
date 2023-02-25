@@ -1,9 +1,12 @@
 import { Text } from '@components';
+import { useNavigation } from '@react-navigation/native';
+import { Screens } from '@screens';
 import { useRegisterMutation } from '@store';
-import { Button, Center, FormControl, Input, Stack, WarningOutlineIcon } from 'native-base';
+import { Button, Center, FormControl, Input, Link, Stack, WarningOutlineIcon } from 'native-base';
 import React, { useCallback, useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { KeyboardAvoidingView, StyleSheet } from 'react-native';
+import { StackNavProps } from 'StackNavigation';
 
 type RegisterationForm = {
   name: string;
@@ -24,6 +27,8 @@ export const Register = () => {
     },
   });
 
+  const { navigate } = useNavigation<StackNavProps>();
+
   const [register, registerResult] = useRegisterMutation();
 
   const onSubmit = useCallback(async (data: RegisterationForm) => {
@@ -35,7 +40,7 @@ export const Register = () => {
   return (
     <KeyboardAvoidingView style={styles.container}>
       <Center style={styles.innerContainer}>
-        <FormControl isInvalid={!!errors.email} marginY={3}>
+        <FormControl isInvalid={!!errors.name} marginY={3}>
           <Stack mx="4">
             <FormControl.Label>
               <Text style={styles.inputLabel}>Username </Text>
@@ -147,6 +152,9 @@ export const Register = () => {
         >
           {"Register "}
         </Button>
+        <Link style={styles.otherLink} onPress={() => navigate(Screens.LOGIN)}>
+          <Text>Already registered?. Login here.</Text>
+        </Link>
       </Center>
     </KeyboardAvoidingView>
   );
@@ -168,5 +176,8 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     padding: 5,
     marginTop: 20,
+  },
+  otherLink: {
+    marginTop: 10,
   },
 });

@@ -1,6 +1,6 @@
 import { Article as TArticle } from '@models';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import { Article, Home, Register, Screens } from '@screens';
+import { Article, Home, Login, Register, Screens } from '@screens';
 import { Switch, useColorMode, useTheme } from 'native-base';
 import { StyleSheet } from 'react-native';
 
@@ -8,8 +8,10 @@ import type { NativeStackNavigationProp } from "@react-navigation/native-stack";
 const Stack = createNativeStackNavigator();
 
 type StackNavParamList = {
-  [Screens.HOME]: {};
+  [Screens.HOME]: undefined;
   [Screens.ARTICLE]: TArticle;
+  [Screens.LOGIN]: undefined;
+  [Screens.REGISTER]: undefined;
 };
 
 export type StackNavProps = NativeStackNavigationProp<StackNavParamList>;
@@ -23,6 +25,13 @@ export const StackNavigation = () => {
       <Stack.Screen
         name={Screens.REGISTER}
         component={Register}
+        options={{
+          headerShown: false,
+        }}
+      />
+      <Stack.Screen
+        name={Screens.LOGIN}
+        component={Login}
         options={{
           headerShown: false,
         }}

@@ -8,7 +8,9 @@ export type RegisterUserPostParams = {
   password: string;
 };
 
-export type RegisterUserResponse = {
+export type LoginUserPostParams = Omit<RegisterUserPostParams, "name">;
+
+export type AuthUserResponse = {
   name: string;
   email: string;
   id: string;
@@ -21,9 +23,16 @@ export const AuthApi = createApi({
     baseUrl: `${getBaseUrl()}/auth`,
   }),
   endpoints: (builder) => ({
-    register: builder.mutation<RegisterUserResponse, RegisterUserPostParams>({
+    register: builder.mutation<AuthUserResponse, RegisterUserPostParams>({
       query: (credentials) => ({
         url: "/register",
+        method: "POST",
+        body: credentials,
+      }),
+    }),
+    login: builder.mutation<AuthUserResponse, LoginUserPostParams>({
+      query: (credentials) => ({
+        url: "/login",
         method: "POST",
         body: credentials,
       }),
@@ -31,4 +40,4 @@ export const AuthApi = createApi({
   }),
 });
 
-export const { useRegisterMutation } = AuthApi;
+export const { useRegisterMutation, useLoginMutation } = AuthApi;

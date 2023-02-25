@@ -30,8 +30,26 @@ export const AuthSlice = createSlice({
         state.token = payload.token;
       }
     );
-    builder.addMatcher(AuthApi.endpoints.register.matchRejected, (state) => {
-      console.log("Regected", state);
-    });
+    builder.addMatcher(
+      AuthApi.endpoints.register.matchRejected,
+      (state, payload) => {
+        console.log("Rejected register", { state, payload });
+      }
+    );
+    builder.addMatcher(
+      AuthApi.endpoints.login.matchFulfilled,
+      (state, { payload }) => {
+        state.email = payload.email;
+        state.name = payload.name;
+        state.id = payload.id;
+        state.token = payload.token;
+      }
+    );
+    builder.addMatcher(
+      AuthApi.endpoints.login.matchRejected,
+      (state, payload) => {
+        console.log("Rejected login", { state, payload });
+      }
+    );
   },
 });
