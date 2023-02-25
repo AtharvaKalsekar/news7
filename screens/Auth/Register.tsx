@@ -1,40 +1,69 @@
 import { Text } from '@components';
-import { createUserWithEmailAndPassword } from 'firebase/auth';
+import { useRegisterMutation } from '@store';
 import { Button, Center, FormControl, Input, Stack, WarningOutlineIcon } from 'native-base';
-import React, { useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { KeyboardAvoidingView, StyleSheet } from 'react-native';
 
-import { auth } from '../../firebase';
+type RegisterationForm = {
+  name: string;
+  email: string;
+  password: string;
+};
 
 export const Register = () => {
   const {
     control,
     handleSubmit,
     formState: { errors },
-  } = useForm({
+  } = useForm<RegisterationForm, any>({
     defaultValues: {
+      name: "",
       email: "",
       password: "",
     },
   });
 
-  const onSubmit = async (data: { email: string; password: string }) => {
-    try {
-      const creds = await createUserWithEmailAndPassword(
-        auth,
-        data.email,
-        data.password
-      );
-      console.log(creds);
-    } catch (error) {
-      console.error("error while regisetring", error);
-    }
-  };
+  const [register, registerResult] = useRegisterMutation();
+
+  const onSubmit = useCallback(async (data: RegisterationForm) => {
+    await register({
+      ...data,
+    }).unwrap();
+  }, []);
 
   return (
     <KeyboardAvoidingView style={styles.container}>
       <Center style={styles.innerContainer}>
+        <FormControl isInvalid={!!errors.email} marginY={3}>
+          <Stack mx="4">
+            <FormControl.Label>
+              <Text style={styles.inputLabel}>Username </Text>
+            </FormControl.Label>
+            <Controller
+              control={control}
+              rules={{
+                required: true,
+              }}
+              render={({ field: { onChange, onBlur, value } }) => (
+                <Input
+                  onBlur={onBlur}
+                  onChangeText={onChange}
+                  value={value}
+                  placeholder="Enter user name"
+                />
+              )}
+              name="name"
+            />
+            {errors.name?.type === "required" && (
+              <FormControl.ErrorMessage
+                leftIcon={<WarningOutlineIcon size="xs" />}
+              >
+                User name is required
+              </FormControl.ErrorMessage>
+            )}
+          </Stack>
+        </FormControl>
         <FormControl isInvalid={!!errors.email} marginY={3}>
           <Stack mx="4">
             <FormControl.Label>

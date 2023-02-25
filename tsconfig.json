@@ -11,7 +11,7 @@
       "@hooks": ["./hooks"],
       "@screens": ["./screens"],
       "@services": ["./services"],
-      "@store": ["./store/*"]
+      "@store": ["./store"]
     }
   }
 }
