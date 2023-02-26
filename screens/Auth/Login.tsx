@@ -86,7 +86,6 @@ export const Login = () => {
               control={control}
               rules={{
                 required: true,
-                minLength: 8,
               }}
               render={({ field: { onChange, onBlur, value } }) => (
                 <Input
@@ -99,13 +98,6 @@ export const Login = () => {
               )}
               name="password"
             />
-            {errors.password?.type === "minLength" && (
-              <FormControl.ErrorMessage
-                leftIcon={<WarningOutlineIcon size="xs" />}
-              >
-                Atleast 8 characters are required.
-              </FormControl.ErrorMessage>
-            )}
             {errors.password?.type === "required" && (
               <FormControl.ErrorMessage
                 leftIcon={<WarningOutlineIcon size="xs" />}
