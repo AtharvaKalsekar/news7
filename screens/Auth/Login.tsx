@@ -1,8 +1,10 @@
+// import { Alert } from '@components';
+import { useAlertToast } from '@hooks';
 import { useNavigation } from '@react-navigation/native';
 import { Screens } from '@screens';
 import { useLoginMutation } from '@store';
 import { Button, Center, FormControl, Input, Link, Stack, WarningOutlineIcon } from 'native-base';
-import React, { useCallback } from 'react';
+import React, { useCallback, useEffect, useMemo } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { KeyboardAvoidingView, StyleSheet, Text } from 'react-native';
 import { StackNavProps } from 'StackNavigation';
@@ -25,11 +27,18 @@ export const Login = () => {
   });
 
   const { navigate } = useNavigation<StackNavProps>();
-  const [login, loginResult] = useLoginMutation();
+  const [login, { isError, error, isSuccess }] = useLoginMutation();
+  const { showErrorToast, showSuccessToast } = useAlertToast();
 
-  if (loginResult.isError) {
-    console.log("login error", loginResult.error);
-  }
+  useEffect(() => {
+    if (isError) {
+      //@ts-ignore
+      showErrorToast(error.data.message);
+    }
+    if (isSuccess) {
+      showSuccessToast("Login Success");
+    }
+  }, [isError, isSuccess]);
 
   const onSubmit = useCallback(async (data: LoginForm) => {
     await login({
