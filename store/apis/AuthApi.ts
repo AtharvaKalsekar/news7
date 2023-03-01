@@ -15,6 +15,7 @@ export type AuthUserResponse = {
   email: string;
   id: string;
   token: string;
+  isEmailVerified: boolean;
 };
 
 export const AuthApi = createApi({

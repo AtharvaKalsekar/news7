@@ -1,12 +1,14 @@
 import { ActionReducerMapBuilder, createSlice } from '@reduxjs/toolkit';
 
+import { saveEntryAsJson } from '../../utils/AsyncStorage';
 import { AuthApi } from '../apis/AuthApi';
 
-type AuthState = {
+export type AuthState = {
   name: string;
   email: string;
   id: string;
   token: string;
+  isEmailVerified: boolean;
 };
 
 const initialState: AuthState = {
@@ -14,12 +16,24 @@ const initialState: AuthState = {
   email: "",
   id: "",
   token: "",
+  isEmailVerified: false,
 };
 
 export const AuthSlice = createSlice({
   name: "Auth",
   initialState,
-  reducers: {},
+  reducers: {
+    setAuthState: (state: AuthState, action: { payload: AuthState }) => {
+      state.email = action.payload.email;
+      state.name = action.payload.name;
+      state.id = action.payload.id;
+      state.token = action.payload.token;
+      state.isEmailVerified = action.payload.isEmailVerified;
+    },
+    logout: (state: AuthState) => {
+      state = initialState;
+    },
+  },
   extraReducers: (builder: ActionReducerMapBuilder<AuthState>) => {
     builder.addMatcher(
       AuthApi.endpoints.register.matchFulfilled,
@@ -28,6 +42,8 @@ export const AuthSlice = createSlice({
         state.name = payload.name;
         state.id = payload.id;
         state.token = payload.token;
+        state.isEmailVerified = payload.isEmailVerified;
+        saveEntryAsJson("userData", payload);
       }
     );
     builder.addMatcher(
@@ -43,6 +59,8 @@ export const AuthSlice = createSlice({
         state.name = payload.name;
         state.id = payload.id;
         state.token = payload.token;
+        state.isEmailVerified = payload.isEmailVerified;
+        saveEntryAsJson("userData", payload);
       }
     );
     builder.addMatcher(
@@ -53,3 +71,5 @@ export const AuthSlice = createSlice({
     );
   },
 });
+
+export const { setAuthState } = AuthSlice.actions;

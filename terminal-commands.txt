@@ -37,3 +37,9 @@ npm install react-hook-form
 #install firebase https://docs.expo.dev/guides/using-firebase/
 npx expo install firebase
 npx expo customize metro.config.js
+
+#uninstall firebase
+npm uninstall firebase @types/firebase
+
+#install async-storage
+npx expo install @react-native-async-storage/async-storage
