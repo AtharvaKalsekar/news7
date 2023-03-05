@@ -1,11 +1,12 @@
 import { Card, Text } from '@components';
 import { Article } from '@models';
 import { useNavigation } from '@react-navigation/native';
-import { Screens } from '@screens';
 import { Box } from 'native-base';
 import { useCallback } from 'react';
 import { Image, Pressable, StyleSheet } from 'react-native';
 import { StackNavProps } from 'StackNavigation';
+
+import { Screens } from '../../utils/constants';
 
 type Props = {
   story: Article;

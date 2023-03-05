@@ -1,12 +1,13 @@
 import { Text } from '@components';
 import { useNavigation } from '@react-navigation/native';
-import { Screens } from '@screens';
 import { useRegisterMutation } from '@store';
 import { Button, Center, FormControl, Input, Link, Stack, WarningOutlineIcon } from 'native-base';
 import React, { useCallback, useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { KeyboardAvoidingView, StyleSheet } from 'react-native';
 import { StackNavProps } from 'StackNavigation';
+
+import { Screens } from '../../utils/constants';
 
 type RegisterationForm = {
   name: string;

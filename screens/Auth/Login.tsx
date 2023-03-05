@@ -1,13 +1,14 @@
 // import { Alert } from '@components';
 import { useAlertToast } from '@hooks';
 import { useNavigation } from '@react-navigation/native';
-import { Screens } from '@screens';
 import { useLoginMutation } from '@store';
 import { Button, Center, FormControl, Input, Link, Stack, WarningOutlineIcon } from 'native-base';
 import React, { useCallback, useEffect, useMemo } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { KeyboardAvoidingView, StyleSheet, Text } from 'react-native';
 import { StackNavProps } from 'StackNavigation';
+
+import { Screens } from '../../utils/constants';
 
 type LoginForm = {
   email: string;

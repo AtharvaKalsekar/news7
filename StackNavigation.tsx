@@ -1,13 +1,14 @@
 import { Article as TArticle } from '@models';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import { Article, Home, Login, Register, Screens } from '@screens';
-import { RootState } from '@store';
+import { Article, Home, VerifyOtp } from '@screens';
+import { AuthState, RootState, setAuthState } from '@store';
 import { Switch, useColorMode, useTheme } from 'native-base';
 import { useEffect } from 'react';
 import { StyleSheet } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
-import { AuthState, setAuthState } from 'store/slices';
-import { getEntryAsJson } from 'utils/AsyncStorage';
+
+import { getEntryAsJson } from './utils/AsyncStorage';
+import { Screens } from './utils/constants';
 
 import type { NativeStackNavigationProp } from "@react-navigation/native-stack";
 const Stack = createNativeStackNavigator();
@@ -17,6 +18,7 @@ type StackNavParamList = {
   [Screens.ARTICLE]: TArticle;
   [Screens.LOGIN]: undefined;
   [Screens.REGISTER]: undefined;
+  [Screens.VERIFY_OTP]: undefined;
 };
 
 export type StackNavProps = NativeStackNavigationProp<StackNavParamList>;
@@ -32,7 +34,7 @@ export const StackNavigation = () => {
   useEffect(() => {
     const initStore = async () => {
       const data = await getEntryAsJson("userData");
-      const storedToken = data.token;
+      const storedToken = data?.token;
       if (storedToken) {
         dispath(setAuthState(data));
       }
@@ -94,7 +96,7 @@ export const StackNavigation = () => {
         </>
       ) : (
         <>
-          <Stack.Screen
+          {/* <Stack.Screen
             name={Screens.REGISTER}
             component={Register}
             options={{
@@ -104,6 +106,13 @@ export const StackNavigation = () => {
           <Stack.Screen
             name={Screens.LOGIN}
             component={Login}
+            options={{
+              headerShown: false,
+            }}
+          /> */}
+          <Stack.Screen
+            name={Screens.VERIFY_OTP}
+            component={VerifyOtp}
             options={{
               headerShown: false,
             }}
