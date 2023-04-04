@@ -18,6 +18,15 @@ export type AuthUserResponse = {
   isEmailVerified: boolean;
 };
 
+export type VerifyOtpPostParams = {
+  otp: string;
+  token: string;
+};
+
+export type ResendOtpPostParams = {
+  token: string;
+};
+
 export const AuthApi = createApi({
   reducerPath: "AuthApi",
   baseQuery: fetchBaseQuery({
@@ -38,7 +47,29 @@ export const AuthApi = createApi({
         body: credentials,
       }),
     }),
+    verifyOtp: builder.mutation<any, VerifyOtpPostParams>({
+      query: (credentials) => ({
+        url: "/verifyOtp",
+        method: "POST",
+        body: credentials,
+        headers: {
+          authorization: credentials.token,
+        },
+      }),
+    }),
+    resendOtp: builder.mutation<any, ResendOtpPostParams>({
+      query: (credentials) => ({
+        url: "/resendOtp",
+        method: "POST",
+        body: credentials,
+      }),
+    }),
   }),
 });
 
-export const { useRegisterMutation, useLoginMutation } = AuthApi;
+export const {
+  useRegisterMutation,
+  useLoginMutation,
+  useVerifyOtpMutation,
+  useResendOtpMutation,
+} = AuthApi;

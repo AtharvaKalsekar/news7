@@ -1,12 +1,15 @@
 import { Text } from '@components';
+import { useAlertToast } from '@hooks';
 import { useNavigation } from '@react-navigation/native';
-import { useRegisterMutation } from '@store';
+import { setAuthState, useRegisterMutation } from '@store';
 import { Button, Center, FormControl, Input, Link, Stack, WarningOutlineIcon } from 'native-base';
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { KeyboardAvoidingView, StyleSheet } from 'react-native';
+import { useDispatch } from 'react-redux';
 import { StackNavProps } from 'StackNavigation';
 
+import { saveEntryAsJson } from '../../utils/AsyncStorage';
 import { Screens } from '../../utils/constants';
 
 type RegisterationForm = {
@@ -31,6 +34,19 @@ export const Register = () => {
   const { navigate } = useNavigation<StackNavProps>();
 
   const [register, registerResult] = useRegisterMutation();
+  const { showErrorToast } = useAlertToast();
+  const dispath = useDispatch();
+
+  useEffect(() => {
+    if (registerResult.isSuccess) {
+      saveEntryAsJson("userData", registerResult.data);
+      dispath(setAuthState(registerResult.data));
+      navigate(Screens.VERIFY_OTP);
+    } else if (registerResult.isError) {
+      //@ts-ignore
+      showErrorToast(registerResult.error.data.message);
+    }
+  }, [registerResult.isSuccess]);
 
   const onSubmit = useCallback(async (data: RegisterationForm) => {
     await register({

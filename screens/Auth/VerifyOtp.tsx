@@ -1,11 +1,19 @@
+import { useAlertToast } from '@hooks';
 import { ResendOTPButton } from '@modules';
+import { AuthState, RootState, setAuthState, useVerifyOtpMutation } from '@store';
 import { Button, Center, HStack, Input } from 'native-base';
-import { useCallback, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { KeyboardAvoidingView, StyleSheet } from 'react-native';
+import { useDispatch, useSelector } from 'react-redux';
+
+import { saveEntryAsJson } from '../../utils/AsyncStorage';
 
 export const VerifyOtp = () => {
   const [value, setValue] = useState<string[]>(Array.from({ length: 6 }));
   const ref = useRef<any>(Array.from({ length: 6 }));
+  const [verifyOtp, verifyOtpResult] = useVerifyOtpMutation();
+  const { token } = useSelector<RootState, AuthState>((state) => state.auth);
+  const { showErrorToast, showSuccessToast } = useAlertToast();
 
   const onChange = useCallback((inputIndex: number, val: string) => {
     if (isNaN(Number(val))) {
@@ -27,6 +35,25 @@ export const VerifyOtp = () => {
   const isInputValid = value.every((elem) => !!elem);
 
   const buttonStyles = isInputValid ? {} : { opacity: 0.5 };
+
+  const dispath = useDispatch();
+
+  const onClickVerifyOtp = useCallback(async () => {
+    verifyOtp({ token, otp: value.join("") });
+  }, []);
+
+  useEffect(() => {
+    if (verifyOtpResult.isSuccess) {
+      showSuccessToast("OTP verfied successfully");
+      //set the data in local-storage
+      saveEntryAsJson("userData", verifyOtpResult.data);
+      //set auth state data
+      dispath(setAuthState(verifyOtpResult.data));
+    } else if (verifyOtpResult.isError) {
+      //@ts-ignore
+      showErrorToast(verifyOtpResult.error.data.message);
+    }
+  }, [verifyOtpResult.isSuccess, verifyOtpResult.isError]);
 
   return (
     <KeyboardAvoidingView style={styles.container}>
@@ -56,7 +83,7 @@ export const VerifyOtp = () => {
             );
           })}
         </HStack>
-        <ResendOTPButton onPress={() => {}} />
+        <ResendOTPButton />
       </Center>
       <Button
         w="70%"
@@ -65,6 +92,7 @@ export const VerifyOtp = () => {
         disabled={!isInputValid}
         style={buttonStyles}
         alignSelf="center"
+        onPress={onClickVerifyOtp}
       >
         Verify OTP
       </Button>
