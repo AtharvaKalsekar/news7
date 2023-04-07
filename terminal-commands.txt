@@ -43,3 +43,9 @@ npm uninstall firebase @types/firebase
 
 #install async-storage
 npx expo install @react-native-async-storage/async-storage
+
+#install navigation drawer
+npx expo install react-native-gesture-handler react-native-reanimated
+add "import "react-native-gesture-handler";" in App.tsx
+react-native-reanimated@2.12.0 works on oneplus
+add  "react-native-reanimated/plugin", to babel.config.js plugins

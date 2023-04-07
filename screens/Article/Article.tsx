@@ -1,38 +1,38 @@
-import { Article as TArticle } from '@models';
-import { ArticleTextView } from '@modules';
-import { useNavigation, useRoute } from '@react-navigation/native';
-import { Box } from 'native-base';
-import { useLayoutEffect } from 'react';
-import { Image, StyleSheet } from 'react-native';
+import { Article as TArticle } from "@models";
+import { ArticleTextView, DrawerScreenWrapper } from "@modules";
+import { useRoute } from "@react-navigation/native";
+import { Box } from "native-base";
+import { useLayoutEffect } from "react";
+import { Image, StyleSheet } from "react-native";
 
 export const Article = () => {
   const { params } = useRoute() as Partial<{ params: TArticle }>;
 
-  const { setOptions } = useNavigation();
-
   const { abstract, title, byline, multimedia, url } = params!;
 
   return (
-    <Box
-      style={styles.container}
-      _light={{ background: "white" }}
-      _dark={{ background: "black" }}
-    >
-      <Image
-        style={styles.image}
-        source={{
-          uri: multimedia[0].url,
-        }}
-      />
-      <Box style={styles.textContainer}>
-        <ArticleTextView
-          abstract={abstract}
-          title={title}
-          byline={byline}
-          url={url}
+    <DrawerScreenWrapper>
+      <Box
+        style={styles.container}
+        _light={{ background: "white" }}
+        _dark={{ background: "black" }}
+      >
+        <Image
+          style={styles.image}
+          source={{
+            uri: multimedia[0].url,
+          }}
         />
+        <Box style={styles.textContainer}>
+          <ArticleTextView
+            abstract={abstract}
+            title={title}
+            byline={byline}
+            url={url}
+          />
+        </Box>
       </Box>
-    </Box>
+    </DrawerScreenWrapper>
   );
 };
 

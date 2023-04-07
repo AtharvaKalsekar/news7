@@ -1,14 +1,15 @@
-import { Article as TArticle } from '@models';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import { Article, Home, Login, Register, VerifyOtp } from '@screens';
-import { AuthState, RootState, setAuthState } from '@store';
-import { Switch, useColorMode, useTheme } from 'native-base';
-import { useEffect } from 'react';
-import { StyleSheet } from 'react-native';
-import { useDispatch, useSelector } from 'react-redux';
+import { Article as TArticle } from "@models";
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import { Login, Register, VerifyOtp } from "@screens";
+import { AuthState, RootState, setAuthState } from "@store";
+import { useColorMode, useTheme } from "native-base";
+import { useEffect } from "react";
+import { StyleSheet } from "react-native";
+import { useDispatch, useSelector } from "react-redux";
 
-import { getEntryAsJson } from './utils/AsyncStorage';
-import { Screens } from './utils/constants';
+import { DrawerNavigation } from "./DrawerNavigation";
+import { getEntryAsJson } from "./utils/AsyncStorage";
+import { Screens } from "./utils/constants";
 
 import type { NativeStackNavigationProp } from "@react-navigation/native-stack";
 const Stack = createNativeStackNavigator();
@@ -19,6 +20,7 @@ type StackNavParamList = {
   [Screens.LOGIN]: undefined;
   [Screens.REGISTER]: undefined;
   [Screens.VERIFY_OTP]: undefined;
+  [Screens.MAIN]: any;
 };
 
 export type StackNavProps = NativeStackNavigationProp<StackNavParamList>;
@@ -49,53 +51,21 @@ export const StackNavigation = () => {
   return (
     <Stack.Navigator>
       {token && isEmailVerified ? (
-        <>
-          <Stack.Screen
-            name={Screens.HOME}
-            component={Home}
-            options={{
-              headerStyle: {
-                backgroundColor: colors.orange[600],
-              },
-              headerTitle: "News71",
-              headerTintColor: "white",
-              contentStyle: {
-                ...styles.container,
-                backgroundColor: colorMode === "dark" ? "black" : "white",
-                paddingTop: 5,
-              },
-              headerRight: (props) => {
-                const onChange = () => {
-                  toggleColorMode();
-                };
-                return (
-                  <Switch
-                    size={"md"}
-                    onChange={onChange}
-                    offTrackColor={"white"}
-                    onTrackColor={"black"}
-                    thumbColor={"lightgray"}
-                  />
-                );
-              },
-            }}
-          />
-          <Stack.Screen
-            name={Screens.ARTICLE}
-            component={Article}
-            options={{
-              headerStyle: {
-                backgroundColor: colors.orange[600],
-              },
-              headerTitle: "Article",
-              headerTintColor: "white",
-              contentStyle: {
-                ...styles.container,
-                backgroundColor: colorMode === "dark" ? "black" : "white",
-              },
-            }}
-          />
-        </>
+        <Stack.Screen
+          name={Screens.MAIN}
+          component={DrawerNavigation}
+          options={{
+            headerShown: false,
+          }}
+        />
+      ) : token && !isEmailVerified ? (
+        <Stack.Screen
+          name={Screens.VERIFY_OTP}
+          component={VerifyOtp}
+          options={{
+            headerShown: false,
+          }}
+        />
       ) : (
         <>
           <Stack.Screen
@@ -108,13 +78,6 @@ export const StackNavigation = () => {
           <Stack.Screen
             name={Screens.LOGIN}
             component={Login}
-            options={{
-              headerShown: false,
-            }}
-          />
-          <Stack.Screen
-            name={Screens.VERIFY_OTP}
-            component={VerifyOtp}
             options={{
               headerShown: false,
             }}

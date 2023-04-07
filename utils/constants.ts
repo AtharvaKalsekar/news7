@@ -4,4 +4,5 @@ export enum Screens {
   REGISTER = "Register",
   LOGIN = "Login",
   VERIFY_OTP = "VerifyOtp",
+  MAIN = "Main",
 }

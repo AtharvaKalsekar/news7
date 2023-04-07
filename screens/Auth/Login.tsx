@@ -1,14 +1,23 @@
 // import { Alert } from '@components';
-import { useAlertToast } from '@hooks';
-import { useNavigation } from '@react-navigation/native';
-import { useLoginMutation } from '@store';
-import { Button, Center, FormControl, Input, Link, Stack, WarningOutlineIcon } from 'native-base';
-import React, { useCallback, useEffect, useMemo } from 'react';
-import { Controller, useForm } from 'react-hook-form';
-import { KeyboardAvoidingView, StyleSheet, Text } from 'react-native';
-import { StackNavProps } from 'StackNavigation';
+import { useAlertToast } from "@hooks";
+import { useNavigation } from "@react-navigation/native";
+import { setAuthState, useLoginMutation } from "@store";
+import {
+  Button,
+  Center,
+  FormControl,
+  Input,
+  Link,
+  Stack,
+  WarningOutlineIcon,
+} from "native-base";
+import React, { useCallback, useEffect, useMemo } from "react";
+import { Controller, useForm } from "react-hook-form";
+import { KeyboardAvoidingView, StyleSheet, Text } from "react-native";
+import { useDispatch } from "react-redux";
+import { StackNavProps } from "StackNavigation";
 
-import { Screens } from '../../utils/constants';
+import { Screens } from "../../utils/constants";
 
 type LoginForm = {
   email: string;
@@ -28,8 +37,10 @@ export const Login = () => {
   });
 
   const { navigate } = useNavigation<StackNavProps>();
-  const [login, { isError, error, isSuccess }] = useLoginMutation();
+  const [login, { isError, error, isSuccess, data: loggedinUserData }] =
+    useLoginMutation();
   const { showErrorToast, showSuccessToast } = useAlertToast();
+  const dispath = useDispatch();
 
   useEffect(() => {
     if (isError) {
@@ -38,6 +49,8 @@ export const Login = () => {
     }
     if (isSuccess) {
       showSuccessToast("Login Success");
+      //set auth state data
+      loggedinUserData && dispath(setAuthState(loggedinUserData));
     }
   }, [isError, isSuccess]);
 

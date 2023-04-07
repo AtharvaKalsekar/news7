@@ -1,12 +1,17 @@
-import { useAlertToast } from '@hooks';
-import { ResendOTPButton } from '@modules';
-import { AuthState, RootState, setAuthState, useVerifyOtpMutation } from '@store';
-import { Button, Center, HStack, Input } from 'native-base';
-import { useCallback, useEffect, useRef, useState } from 'react';
-import { KeyboardAvoidingView, StyleSheet } from 'react-native';
-import { useDispatch, useSelector } from 'react-redux';
+import { useAlertToast } from "@hooks";
+import { ResendOTPButton } from "@modules";
+import {
+  AuthState,
+  RootState,
+  setAuthState,
+  useVerifyOtpMutation,
+} from "@store";
+import { Button, Center, HStack, Input } from "native-base";
+import { useCallback, useEffect, useRef, useState } from "react";
+import { KeyboardAvoidingView, StyleSheet } from "react-native";
+import { useDispatch, useSelector } from "react-redux";
 
-import { saveEntryAsJson } from '../../utils/AsyncStorage';
+import { saveEntryAsJson } from "../../utils/AsyncStorage";
 
 export const VerifyOtp = () => {
   const [value, setValue] = useState<string[]>(Array.from({ length: 6 }));
@@ -14,6 +19,8 @@ export const VerifyOtp = () => {
   const [verifyOtp, verifyOtpResult] = useVerifyOtpMutation();
   const { token } = useSelector<RootState, AuthState>((state) => state.auth);
   const { showErrorToast, showSuccessToast } = useAlertToast();
+
+  console.log({ value });
 
   const onChange = useCallback((inputIndex: number, val: string) => {
     if (isNaN(Number(val))) {

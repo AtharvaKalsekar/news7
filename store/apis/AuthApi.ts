@@ -1,6 +1,6 @@
-import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/dist/query/react';
+import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/dist/query/react";
 
-import { getBaseUrl } from '../../utils/BaseUrl';
+import { getBaseUrl } from "../../utils/BaseUrl";
 
 export type RegisterUserPostParams = {
   name: string;
@@ -62,6 +62,9 @@ export const AuthApi = createApi({
         url: "/resendOtp",
         method: "POST",
         body: credentials,
+        headers: {
+          authorization: credentials.token,
+        },
       }),
     }),
   }),
