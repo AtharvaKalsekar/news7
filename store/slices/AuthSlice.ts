@@ -1,7 +1,7 @@
-import { ActionReducerMapBuilder, createSlice } from '@reduxjs/toolkit';
+import { ActionReducerMapBuilder, createSlice } from "@reduxjs/toolkit";
 
-import { saveEntryAsJson } from '../../utils/AsyncStorage';
-import { AuthApi } from '../apis/AuthApi';
+import { deleteEntry, saveEntryAsJson } from "../../utils/AsyncStorage";
+import { AuthApi } from "../apis/AuthApi";
 
 export type AuthState = {
   name: string;
@@ -31,7 +31,12 @@ export const AuthSlice = createSlice({
       state.isEmailVerified = action.payload.isEmailVerified;
     },
     logout: (state: AuthState) => {
-      state = initialState;
+      state.email = "";
+      state.name = "";
+      state.id = "";
+      state.token = "";
+      state.isEmailVerified = false;
+      deleteEntry("userData");
     },
   },
   extraReducers: (builder: ActionReducerMapBuilder<AuthState>) => {
@@ -72,4 +77,4 @@ export const AuthSlice = createSlice({
   },
 });
 
-export const { setAuthState } = AuthSlice.actions;
+export const { setAuthState, logout } = AuthSlice.actions;

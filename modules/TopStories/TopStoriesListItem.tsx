@@ -1,12 +1,12 @@
-import { Card, Text } from '@components';
-import { Article } from '@models';
-import { useNavigation } from '@react-navigation/native';
-import { Box } from 'native-base';
-import { useCallback } from 'react';
-import { Image, Pressable, StyleSheet } from 'react-native';
-import { StackNavProps } from 'StackNavigation';
+import { Card, Text } from "@components";
+import { Article } from "@models";
+import { useNavigation } from "@react-navigation/native";
+import { Box } from "native-base";
+import { useCallback } from "react";
+import { Image, Pressable, StyleSheet } from "react-native";
+import { StackNavProps } from "StackNavigation";
 
-import { Screens } from '../../utils/constants';
+import { Screens } from "../../utils/constants";
 
 type Props = {
   story: Article;
@@ -16,9 +16,7 @@ export const TopStoriesListItem = ({ story }: Props) => {
   const { navigate } = useNavigation<StackNavProps>();
 
   const onPress = useCallback(() => {
-    navigate(Screens.ARTICLE, {
-      ...story,
-    });
+    navigate(Screens.ARTICLE, { ...story });
   }, [navigate, story]);
 
   return (

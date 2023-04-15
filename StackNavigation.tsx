@@ -1,6 +1,6 @@
 import { Article as TArticle } from "@models";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import { Login, Register, VerifyOtp } from "@screens";
+import { Article, Login, Register, VerifyOtp } from "@screens";
 import { AuthState, RootState, setAuthState } from "@store";
 import { useColorMode, useTheme } from "native-base";
 import { useEffect } from "react";
@@ -49,15 +49,28 @@ export const StackNavigation = () => {
   }, [token]);
 
   return (
-    <Stack.Navigator>
+    <Stack.Navigator initialRouteName={Screens.MAIN} id="root-nav">
       {token && isEmailVerified ? (
-        <Stack.Screen
-          name={Screens.MAIN}
-          component={DrawerNavigation}
-          options={{
-            headerShown: false,
-          }}
-        />
+        <Stack.Group>
+          <Stack.Screen
+            name={Screens.MAIN}
+            component={DrawerNavigation}
+            options={{
+              headerShown: false,
+            }}
+          />
+          <Stack.Screen
+            name={Screens.ARTICLE}
+            component={Article}
+            options={{
+              headerStyle: {
+                backgroundColor: colors.orange[600],
+              },
+              headerTitle: "Article",
+              headerTintColor: "white",
+            }}
+          />
+        </Stack.Group>
       ) : token && !isEmailVerified ? (
         <Stack.Screen
           name={Screens.VERIFY_OTP}
@@ -67,7 +80,7 @@ export const StackNavigation = () => {
           }}
         />
       ) : (
-        <>
+        <Stack.Group>
           <Stack.Screen
             name={Screens.REGISTER}
             component={Register}
@@ -82,7 +95,7 @@ export const StackNavigation = () => {
               headerShown: false,
             }}
           />
-        </>
+        </Stack.Group>
       )}
     </Stack.Navigator>
   );
