@@ -1,17 +1,22 @@
-import { Section } from '@models';
-import { Box, Center, useTheme } from 'native-base';
-import { useCallback, useState } from 'react';
-import { ActivityIndicator, StyleSheet } from 'react-native';
+import { Section } from "@models";
+import { AuthState, RootState } from "@store";
+import { Box, Center, useTheme } from "native-base";
+import { useCallback, useState } from "react";
+import { ActivityIndicator, StyleSheet } from "react-native";
+import { useSelector } from "react-redux";
 
-import { useGetTopStoriesQuery } from '../../store/apis';
-import { SectionsMenu } from './SectionsMenu';
-import { TopStoriesList } from './TopStoriesList';
+import { useGetTopStoriesQuery } from "../../store/apis";
+import { SectionsMenu } from "./SectionsMenu";
+import { TopStoriesList } from "./TopStoriesList";
 
 export const TopStories = () => {
   const [selectedSection, setSelectedSection] = useState<Section>(Section.ARTS);
+  const { token } = useSelector<RootState, AuthState>((state) => state.auth);
 
-  const { data, isError, isFetching, isLoading } =
-    useGetTopStoriesQuery(selectedSection);
+  const { data, isError, isFetching, isLoading } = useGetTopStoriesQuery({
+    section: selectedSection,
+    token,
+  });
 
   const onSelectSection = useCallback((section: Section) => {
     setSelectedSection(section);
@@ -38,7 +43,7 @@ export const TopStories = () => {
           <ActivityIndicator size={50} color={colors.orange[600]} />
         </Center>
       ) : (
-        <TopStoriesList stories={data.results} />
+        <TopStoriesList stories={data} />
       )}
     </Box>
   );

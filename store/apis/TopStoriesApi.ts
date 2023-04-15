@@ -1,4 +1,6 @@
-import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
+import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
+
+import { getBaseUrl } from "../../utils/BaseUrl";
 
 const API_KEY = "edTOGyAP76XdAxaKwbnD9IqL8mpxbAXn";
 
@@ -20,4 +22,25 @@ export const TopStoriesApi = createApi({
   }),
 });
 
-export const { useGetTopStoriesQuery } = TopStoriesApi;
+export const TopStoriesApi2 = createApi({
+  reducerPath: "TopStoriesApi",
+  baseQuery: fetchBaseQuery({
+    baseUrl: `${getBaseUrl()}/articles/`,
+  }),
+  tagTypes: ["TopStories"],
+  endpoints: (builder) => ({
+    getTopStories: builder.query({
+      query: ({ section, token }) => ({
+        url: `?section=${section}&articlesPerSection=7`,
+        headers: {
+          authorization: token,
+        },
+      }),
+      providesTags: (result, error, id) => [
+        { type: "TopStories", id: result?.section },
+      ],
+    }),
+  }),
+});
+
+export const { useGetTopStoriesQuery } = TopStoriesApi2;
