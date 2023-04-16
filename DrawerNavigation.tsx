@@ -21,17 +21,10 @@ import { useDispatch } from "react-redux";
 
 import { Screens } from "./utils/constants";
 
-//@ts-ignore
-// global.__reanimatedWorkletInit = () => {};
 const Drawer = createDrawerNavigator();
 
-const ICONS: { [key in Screens]: string | undefined } = {
+const ICONS: Partial<{ [key in Screens]: string | undefined }> = {
   [Screens.HOME]: "home",
-  [Screens.ARTICLE]: undefined,
-  [Screens.REGISTER]: undefined,
-  [Screens.LOGIN]: undefined,
-  [Screens.VERIFY_OTP]: undefined,
-  [Screens.MAIN]: undefined,
 };
 
 const DrawerContent = (props: any) => {

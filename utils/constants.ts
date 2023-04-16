@@ -5,4 +5,6 @@ export enum Screens {
   LOGIN = "Login",
   VERIFY_OTP = "VerifyOtp",
   MAIN = "Main",
+  CHECK_EMIAL_EXISTS = "CheckEmailExists",
+  SET_NEW_PASSWORD = "SetNewPassword",
 }

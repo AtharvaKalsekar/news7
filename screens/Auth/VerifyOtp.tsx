@@ -1,26 +1,23 @@
 import { useAlertToast } from "@hooks";
 import { ResendOTPButton } from "@modules";
-import {
-  AuthState,
-  RootState,
-  setAuthState,
-  useVerifyOtpMutation,
-} from "@store";
+import { useNavigation } from "@react-navigation/native";
+import { AuthState, RootState, useVerifyOtpMutation } from "@store";
 import { Button, Center, HStack, Input } from "native-base";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { KeyboardAvoidingView, StyleSheet } from "react-native";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 
-import { saveEntryAsJson } from "../../utils/AsyncStorage";
+import { StackNavProps } from "../../StackNavigation";
+import { Screens } from "../../utils/constants";
 
 export const VerifyOtp = () => {
   const [value, setValue] = useState<string[]>(Array.from({ length: 6 }));
   const ref = useRef<any>(Array.from({ length: 6 }));
   const [verifyOtp, verifyOtpResult] = useVerifyOtpMutation();
-  const { token } = useSelector<RootState, AuthState>((state) => state.auth);
+  const { token, isPasswordReset } = useSelector<RootState, AuthState>(
+    (state) => state.auth
+  );
   const { showErrorToast, showSuccessToast } = useAlertToast();
-
-  console.log({ value });
 
   const onChange = useCallback((inputIndex: number, val: string) => {
     if (isNaN(Number(val))) {
@@ -43,19 +40,23 @@ export const VerifyOtp = () => {
 
   const buttonStyles = isInputValid ? {} : { opacity: 0.5 };
 
-  const dispath = useDispatch();
+  // const dispath = useDispatch();
+  const { navigate } = useNavigation<StackNavProps>();
 
   const onClickVerifyOtp = useCallback(async () => {
     verifyOtp({ token, otp: value.join("") });
-  }, []);
+  }, [value]);
 
   useEffect(() => {
     if (verifyOtpResult.isSuccess) {
       showSuccessToast("OTP verfied successfully");
       //set the data in local-storage
-      saveEntryAsJson("userData", verifyOtpResult.data);
+      // saveEntryAsJson("userData", verifyOtpResult.data);
       //set auth state data
-      dispath(setAuthState(verifyOtpResult.data));
+      // dispath(setAuthState(verifyOtpResult.data));
+      if (isPasswordReset) {
+        navigate(Screens.SET_NEW_PASSWORD);
+      }
     } else if (verifyOtpResult.isError) {
       //@ts-ignore
       showErrorToast(verifyOtpResult.error.data.message);

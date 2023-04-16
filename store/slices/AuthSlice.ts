@@ -9,6 +9,7 @@ export type AuthState = {
   id: string;
   token: string;
   isEmailVerified: boolean;
+  isPasswordReset?: boolean;
 };
 
 const initialState: AuthState = {
@@ -17,6 +18,7 @@ const initialState: AuthState = {
   id: "",
   token: "",
   isEmailVerified: false,
+  isPasswordReset: false,
 };
 
 export const AuthSlice = createSlice({
@@ -29,6 +31,7 @@ export const AuthSlice = createSlice({
       state.id = action.payload.id;
       state.token = action.payload.token;
       state.isEmailVerified = action.payload.isEmailVerified;
+      state.isPasswordReset = action.payload.isPasswordReset || false;
     },
     logout: (state: AuthState) => {
       state.email = "";
@@ -36,6 +39,7 @@ export const AuthSlice = createSlice({
       state.id = "";
       state.token = "";
       state.isEmailVerified = false;
+      state.isPasswordReset = false;
       deleteEntry("userData");
     },
   },
@@ -48,6 +52,7 @@ export const AuthSlice = createSlice({
         state.id = payload.id;
         state.token = payload.token;
         state.isEmailVerified = payload.isEmailVerified;
+        state.isPasswordReset = false;
         saveEntryAsJson("userData", payload);
       }
     );
@@ -65,6 +70,7 @@ export const AuthSlice = createSlice({
         state.id = payload.id;
         state.token = payload.token;
         state.isEmailVerified = payload.isEmailVerified;
+        state.isPasswordReset = false;
         saveEntryAsJson("userData", payload);
       }
     );
@@ -72,6 +78,49 @@ export const AuthSlice = createSlice({
       AuthApi.endpoints.login.matchRejected,
       (state, payload) => {
         console.log("Rejected login", { state, payload });
+      }
+    );
+
+    builder.addMatcher(
+      AuthApi.endpoints.verifyOtp.matchFulfilled,
+      (state, { payload }) => {
+        state.isEmailVerified = payload.isEmailVerified;
+        saveEntryAsJson("userData", payload);
+      }
+    );
+    builder.addMatcher(
+      AuthApi.endpoints.verifyOtp.matchRejected,
+      (state, payload) => {
+        console.log("Rejected verifyOtp", { state, payload });
+      }
+    );
+
+    builder.addMatcher(
+      AuthApi.endpoints.checkEmailExists.matchFulfilled,
+      (state, { payload }) => {
+        state.email = payload.email;
+        state.token = payload.token;
+        state.isEmailVerified = payload.isEmailVerified;
+        state.isPasswordReset = true;
+      }
+    );
+    builder.addMatcher(
+      AuthApi.endpoints.checkEmailExists.matchRejected,
+      (state, payload) => {
+        console.log("Rejected checkEmailExists", { state, payload });
+      }
+    );
+
+    builder.addMatcher(
+      AuthApi.endpoints.setNewPassword.matchFulfilled,
+      (state) => {
+        state.isPasswordReset = false;
+      }
+    );
+    builder.addMatcher(
+      AuthApi.endpoints.checkEmailExists.matchRejected,
+      (state, payload) => {
+        console.log("Rejected setNewPassword", { state, payload });
       }
     );
   },

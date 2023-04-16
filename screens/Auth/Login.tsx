@@ -143,6 +143,12 @@ export const Login = () => {
         >
           <Text>Not registered?. Sign-up here.</Text>
         </Link>
+        <Link
+          style={styles.otherLink}
+          onPress={() => navigate(Screens.CHECK_EMIAL_EXISTS)}
+        >
+          <Text>Forgot Password?</Text>
+        </Link>
       </Center>
     </KeyboardAvoidingView>
   );

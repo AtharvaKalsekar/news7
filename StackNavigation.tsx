@@ -1,6 +1,13 @@
 import { Article as TArticle } from "@models";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import { Article, Login, Register, VerifyOtp } from "@screens";
+import {
+  Article,
+  CheckEmailExists,
+  Login,
+  Register,
+  SetNewPassword,
+  VerifyOtp,
+} from "@screens";
 import { AuthState, RootState, setAuthState } from "@store";
 import { useColorMode, useTheme } from "native-base";
 import { useEffect } from "react";
@@ -21,6 +28,8 @@ type StackNavParamList = {
   [Screens.REGISTER]: undefined;
   [Screens.VERIFY_OTP]: undefined;
   [Screens.MAIN]: any;
+  [Screens.CHECK_EMIAL_EXISTS]: undefined;
+  [Screens.SET_NEW_PASSWORD]: undefined;
 };
 
 export type StackNavProps = NativeStackNavigationProp<StackNavParamList>;
@@ -29,9 +38,10 @@ export const StackNavigation = () => {
   const { colors } = useTheme();
   const { toggleColorMode, colorMode } = useColorMode();
 
-  const { token, isEmailVerified } = useSelector<RootState, AuthState>(
-    (state) => state.auth
-  );
+  const { token, isEmailVerified, isPasswordReset } = useSelector<
+    RootState,
+    AuthState
+  >((state) => state.auth);
 
   const dispath = useDispatch();
 
@@ -50,7 +60,7 @@ export const StackNavigation = () => {
 
   return (
     <Stack.Navigator initialRouteName={Screens.MAIN} id="root-nav">
-      {token && isEmailVerified ? (
+      {token && isEmailVerified && !isPasswordReset ? (
         <Stack.Group>
           <Stack.Screen
             name={Screens.MAIN}
@@ -71,15 +81,16 @@ export const StackNavigation = () => {
             }}
           />
         </Stack.Group>
-      ) : token && !isEmailVerified ? (
-        <Stack.Screen
-          name={Screens.VERIFY_OTP}
-          component={VerifyOtp}
-          options={{
-            headerShown: false,
-          }}
-        />
       ) : (
+        // : token && !isEmailVerified ? (
+        //   <Stack.Screen
+        //     name={Screens.VERIFY_OTP}
+        //     component={VerifyOtp}
+        //     options={{
+        //       headerShown: false,
+        //     }}
+        //   />
+        // )
         <Stack.Group>
           <Stack.Screen
             name={Screens.REGISTER}
@@ -91,6 +102,27 @@ export const StackNavigation = () => {
           <Stack.Screen
             name={Screens.LOGIN}
             component={Login}
+            options={{
+              headerShown: false,
+            }}
+          />
+          <Stack.Screen
+            name={Screens.VERIFY_OTP}
+            component={VerifyOtp}
+            options={{
+              headerShown: false,
+            }}
+          />
+          <Stack.Screen
+            name={Screens.CHECK_EMIAL_EXISTS}
+            component={CheckEmailExists}
+            options={{
+              headerShown: false,
+            }}
+          />
+          <Stack.Screen
+            name={Screens.SET_NEW_PASSWORD}
+            component={SetNewPassword}
             options={{
               headerShown: false,
             }}

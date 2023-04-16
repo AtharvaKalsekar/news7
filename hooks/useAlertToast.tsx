@@ -1,6 +1,6 @@
-import { Alert } from '@components';
-import { useToast } from 'native-base';
-import { useCallback } from 'react';
+import { Alert } from "@components";
+import { useToast } from "native-base";
+import { useCallback } from "react";
 
 export const useAlertToast = () => {
   const toast = useToast();
@@ -21,5 +21,9 @@ export const useAlertToast = () => {
     });
   }, []);
 
-  return { showSuccessToast, showErrorToast };
+  const clearAllToasts = useCallback(() => {
+    toast.closeAll();
+  }, []);
+
+  return { showSuccessToast, showErrorToast, clearAllToasts };
 };
