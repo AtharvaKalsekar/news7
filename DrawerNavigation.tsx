@@ -5,7 +5,7 @@ import {
   DrawerContentScrollView,
 } from "@react-navigation/drawer";
 import { Home } from "@screens";
-import { logout } from "@store";
+import { AuthState, logout, RootState } from "@store";
 import {
   Box,
   Divider,
@@ -17,7 +17,7 @@ import {
 } from "native-base";
 import { useCallback, useEffect } from "react";
 import { StyleSheet } from "react-native";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 import { Screens } from "./utils/constants";
 
@@ -30,6 +30,10 @@ const ICONS: Partial<{ [key in Screens]: string | undefined }> = {
 const DrawerContent = (props: any) => {
   const dispatch = useDispatch();
 
+  const { email, name } = useSelector<RootState, AuthState>(
+    (state) => state.auth
+  );
+
   const onPressLogout = useCallback(() => {
     dispatch(logout());
   }, []);
@@ -39,10 +43,10 @@ const DrawerContent = (props: any) => {
         <VStack space="6" my="2" mx="1">
           <Box px="4">
             <Text bold color="gray.700">
-              Mail
+              {name}
             </Text>
             <Text fontSize="14" mt="1" color="gray.500" fontWeight="500">
-              john_doe@gmail.com
+              {email}
             </Text>
           </Box>
           <Divider />
