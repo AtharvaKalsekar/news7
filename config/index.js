@@ -1,12 +1,10 @@
 const fs = require("fs");
 const path = require("path");
 
-const updateEnv = (environment = "dev") => {
+const updateEnv = (environment = process.env.environment) => {
   try {
     const baseEnv = ".env";
     const baseEnvFileLocation = path.resolve(__dirname, "..", baseEnv);
-    // .replace('\\','//')
-    // .replace(/\\/g, "/");
 
     fs.unlinkSync(baseEnvFileLocation);
 
@@ -18,7 +16,6 @@ const updateEnv = (environment = "dev") => {
       "config",
       currentEnv
     );
-    // .replace(/\\/g, "/");
 
     const data = fs.readFileSync(currentEnvFileLocation, "utf8");
     fs.writeFileSync(baseEnvFileLocation, data);

@@ -61,6 +61,7 @@ const DrawerContent = (props: any) => {
                   onPress={(event) => {
                     props.navigation.navigate(name);
                   }}
+                  key={name}
                 >
                   <HStack space="7" alignItems="center">
                     <Icon
