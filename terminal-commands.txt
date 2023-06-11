@@ -50,7 +50,26 @@ add "import "react-native-gesture-handler";" in App.tsx
 react-native-reanimated@2.12.0 works on oneplus
 add  "react-native-reanimated/plugin", to babel.config.js plugins
 
-#integrating envs
+#integrating envs [deleted]
 1. created ./config/index.js and ./config/.env.dev and ./config/.env.prod
 2. in package.json replaced start script with "node ./config/index.js -env=dev && expo start -c"
 3. installed react-native-dotenv according to https://www.npmjs.com/package/react-native-dotenv
+-- tried, "node exec,spawn" and "node-powershell" approaches as well but nothing worked
+-- removed npm start scripts and create local.dev.ps1 and local.prod.ps1 for local dev workflow
+
+#eas build apk and deploy
+1. eas build:configure
+2. modify preview in eas.json 
+ {
+    ...,
+    "preview": {
+      "android": {
+        "buildType": "apk"
+      },
+      "env": {
+        "ENVIRONMENT": "prod"
+      }
+    }
+    ...,
+ }
+3. eas build -p android --profile preview 
