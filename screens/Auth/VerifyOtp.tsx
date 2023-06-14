@@ -1,14 +1,14 @@
-import { useAlertToast } from "@hooks";
-import { ResendOTPButton } from "@modules";
-import { useNavigation } from "@react-navigation/native";
-import { AuthState, RootState, useVerifyOtpMutation } from "@store";
-import { Button, Center, HStack, Input } from "native-base";
-import { useCallback, useEffect, useRef, useState } from "react";
-import { KeyboardAvoidingView, StyleSheet } from "react-native";
-import { useSelector } from "react-redux";
+import { useAlertToast } from '@hooks';
+import { ResendOTPButton } from '@modules';
+import { useNavigation } from '@react-navigation/native';
+import { AuthState, RootState, useVerifyOtpMutation } from '@store';
+import { Button, Center, HStack, Input } from 'native-base';
+import { useCallback, useEffect, useRef, useState } from 'react';
+import { KeyboardAvoidingView, StyleSheet } from 'react-native';
+import { useSelector } from 'react-redux';
 
-import { StackNavProps } from "../../StackNavigation";
-import { Screens } from "../../utils/constants";
+import { StackNavProps } from '../../StackNavigation';
+import { Screens } from '../../utils/constants';
 
 export const VerifyOtp = () => {
   const [value, setValue] = useState<string[]>(Array.from({ length: 6 }));
@@ -50,10 +50,6 @@ export const VerifyOtp = () => {
   useEffect(() => {
     if (verifyOtpResult.isSuccess) {
       showSuccessToast("OTP verfied successfully");
-      //set the data in local-storage
-      // saveEntryAsJson("userData", verifyOtpResult.data);
-      //set auth state data
-      // dispath(setAuthState(verifyOtpResult.data));
       if (isPasswordReset) {
         navigate(Screens.SET_NEW_PASSWORD);
       }

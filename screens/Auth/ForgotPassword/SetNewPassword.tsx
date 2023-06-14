@@ -1,19 +1,12 @@
-import { Text } from "@components";
-import { useAlertToast } from "@hooks";
-import { AuthState, RootState, useSetNewPasswordMutation } from "@store";
-import {
-  Button,
-  Center,
-  FormControl,
-  Input,
-  KeyboardAvoidingView,
-  Stack,
-  WarningOutlineIcon,
-} from "native-base";
-import { useCallback, useEffect } from "react";
-import { Controller, useForm } from "react-hook-form";
-import { StyleSheet } from "react-native";
-import { useSelector } from "react-redux";
+import { Text } from '@components';
+import { useAlertToast } from '@hooks';
+import { AuthState, RootState, useSetNewPasswordMutation } from '@store';
+import { Button, Center, FormControl, Input, KeyboardAvoidingView, Stack, WarningOutlineIcon } from 'native-base';
+import { useCallback, useEffect } from 'react';
+import { Controller, useForm } from 'react-hook-form';
+import { StyleSheet } from 'react-native';
+import { useSelector } from 'react-redux';
+import { getHashedPassword } from 'utils/HashPassword';
 
 type SetNewPasswordForm = {
   password: string;
@@ -47,9 +40,9 @@ export const SetNewPassword = () => {
 
   const { token } = useSelector<RootState, AuthState>((state) => state.auth);
 
-  const onSubmit = useCallback(async (data: SetNewPasswordForm) => {
+  const onSubmit = useCallback(async ({ password }: SetNewPasswordForm) => {
     await setNewPassword({
-      ...data,
+      password: getHashedPassword(password),
       token,
     }).unwrap();
   }, []);

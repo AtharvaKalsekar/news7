@@ -1,23 +1,16 @@
 // import { Alert } from '@components';
-import { useAlertToast } from "@hooks";
-import { useNavigation } from "@react-navigation/native";
-import { setAuthState, useLoginMutation } from "@store";
-import {
-  Button,
-  Center,
-  FormControl,
-  Input,
-  Link,
-  Stack,
-  WarningOutlineIcon,
-} from "native-base";
-import React, { useCallback, useEffect, useMemo } from "react";
-import { Controller, useForm } from "react-hook-form";
-import { KeyboardAvoidingView, StyleSheet, Text } from "react-native";
-import { useDispatch } from "react-redux";
-import { StackNavProps } from "StackNavigation";
+import { useAlertToast } from '@hooks';
+import { useNavigation } from '@react-navigation/native';
+import { setAuthState, useLoginMutation } from '@store';
+import { Button, Center, FormControl, Input, Link, Stack, WarningOutlineIcon } from 'native-base';
+import React, { useCallback, useEffect, useMemo } from 'react';
+import { Controller, useForm } from 'react-hook-form';
+import { KeyboardAvoidingView, StyleSheet, Text } from 'react-native';
+import { useDispatch } from 'react-redux';
+import { StackNavProps } from 'StackNavigation';
+import { getHashedPassword } from 'utils/HashPassword';
 
-import { Screens } from "../../utils/constants";
+import { Screens } from '../../utils/constants';
 
 type LoginForm = {
   email: string;
@@ -54,9 +47,10 @@ export const Login = () => {
     }
   }, [isError, isSuccess]);
 
-  const onSubmit = useCallback(async (data: LoginForm) => {
+  const onSubmit = useCallback(async ({ email, password }: LoginForm) => {
     await login({
-      ...data,
+      email,
+      password: getHashedPassword(password),
     }).unwrap();
   }, []);
 

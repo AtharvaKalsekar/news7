@@ -8,6 +8,7 @@ import { Controller, useForm } from 'react-hook-form';
 import { KeyboardAvoidingView, StyleSheet } from 'react-native';
 import { useDispatch } from 'react-redux';
 import { StackNavProps } from 'StackNavigation';
+import { getHashedPassword } from 'utils/HashPassword';
 
 import { saveEntryAsJson } from '../../utils/AsyncStorage';
 import { Screens } from '../../utils/constants';
@@ -48,11 +49,16 @@ export const Register = () => {
     }
   }, [registerResult.isSuccess]);
 
-  const onSubmit = useCallback(async (data: RegisterationForm) => {
-    await register({
-      ...data,
-    }).unwrap();
-  }, []);
+  const onSubmit = useCallback(
+    async ({ name, email, password }: RegisterationForm) => {
+      await register({
+        email,
+        name,
+        password: getHashedPassword(password),
+      }).unwrap();
+    },
+    []
+  );
 
   return (
     <KeyboardAvoidingView style={styles.container}>
