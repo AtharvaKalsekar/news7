@@ -73,3 +73,11 @@ add  "react-native-reanimated/plugin", to babel.config.js plugins
     ...,
  }
 3. eas build -p android --profile preview 
+
+# add bcryptjs
+1. npm i bcryptjs @types/bcryptjs --save
+2. add fallback 
+-> setRandomFallback((len: number) => {
+  const buf = new Uint8Array(len);
+  return Array.from(buf.map(() => Math.floor(Math.random() * 256)));
+});
