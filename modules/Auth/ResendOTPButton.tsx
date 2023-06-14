@@ -49,13 +49,6 @@ export const ResendOTPButton = () => {
 
   const onPressResend = useCallback(() => {
     resendOtp({ token });
-    // .then((data) => {
-    //   setTimer((prev) => prev + 15000);
-    //   showSuccessToast("OTP resent successfully");
-    // })
-    // .catch((error) => {
-    //   showErrorToast("Failed to send otp");
-    // });
   }, []);
 
   return (

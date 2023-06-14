@@ -8,9 +8,9 @@ import { Controller, useForm } from 'react-hook-form';
 import { KeyboardAvoidingView, StyleSheet, Text } from 'react-native';
 import { useDispatch } from 'react-redux';
 import { StackNavProps } from 'StackNavigation';
-import { getHashedPassword } from 'utils/HashPassword';
 
 import { Screens } from '../../utils/constants';
+import { getHashedPassword } from '../../utils/HashPassword';
 
 type LoginForm = {
   email: string;

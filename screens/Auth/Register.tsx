@@ -8,10 +8,10 @@ import { Controller, useForm } from 'react-hook-form';
 import { KeyboardAvoidingView, StyleSheet } from 'react-native';
 import { useDispatch } from 'react-redux';
 import { StackNavProps } from 'StackNavigation';
-import { getHashedPassword } from 'utils/HashPassword';
 
 import { saveEntryAsJson } from '../../utils/AsyncStorage';
 import { Screens } from '../../utils/constants';
+import { getHashedPassword } from '../../utils/HashPassword';
 
 type RegisterationForm = {
   name: string;

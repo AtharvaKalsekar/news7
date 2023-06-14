@@ -6,7 +6,8 @@ import { useCallback, useEffect } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { StyleSheet } from 'react-native';
 import { useSelector } from 'react-redux';
-import { getHashedPassword } from 'utils/HashPassword';
+
+import { getHashedPassword } from '../../../utils/HashPassword';
 
 type SetNewPasswordForm = {
   password: string;
