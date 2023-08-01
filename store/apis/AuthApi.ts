@@ -1,6 +1,6 @@
-import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/dist/query/react";
+import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/dist/query/react';
 
-import { getBaseUrl } from "../../utils/BaseUrl";
+import { getBaseUrl } from '../../utils/BaseUrl';
 
 export type RegisterUserPostParams = {
   name: string;
@@ -86,6 +86,15 @@ export const AuthApi = createApi({
         },
       }),
     }),
+    deleteAccount: builder.mutation<any, { token: string }>({
+      query: ({ token }) => ({
+        url: "/deleteAccount",
+        method: "DELETE",
+        headers: {
+          authorization: token,
+        },
+      }),
+    }),
   }),
 });
 
@@ -96,4 +105,5 @@ export const {
   useResendOtpMutation,
   useCheckEmailExistsMutation,
   useSetNewPasswordMutation,
+  useDeleteAccountMutation,
 } = AuthApi;

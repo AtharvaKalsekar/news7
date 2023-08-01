@@ -1,7 +1,7 @@
-import { ActionReducerMapBuilder, createSlice } from "@reduxjs/toolkit";
+import { ActionReducerMapBuilder, createSlice } from '@reduxjs/toolkit';
 
-import { deleteEntry, saveEntryAsJson } from "../../utils/AsyncStorage";
-import { AuthApi } from "../apis/AuthApi";
+import { deleteEntry, saveEntryAsJson } from '../../utils/AsyncStorage';
+import { AuthApi } from '../apis/AuthApi';
 
 export type AuthState = {
   name: string;

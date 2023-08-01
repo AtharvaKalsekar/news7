@@ -1,25 +1,14 @@
-import { HStack, Text } from "@components";
-import { MaterialCommunityIcons } from "@expo/vector-icons";
-import {
-  createDrawerNavigator,
-  DrawerContentScrollView,
-} from "@react-navigation/drawer";
-import { Home } from "@screens";
-import { AuthState, logout, RootState } from "@store";
-import {
-  Box,
-  Divider,
-  Icon,
-  Pressable,
-  useColorMode,
-  useTheme,
-  VStack,
-} from "native-base";
-import { useCallback, useEffect } from "react";
-import { StyleSheet } from "react-native";
-import { useDispatch, useSelector } from "react-redux";
+import { HStack, Text } from '@components';
+import { MaterialCommunityIcons } from '@expo/vector-icons';
+import { createDrawerNavigator, DrawerContentScrollView } from '@react-navigation/drawer';
+import { Home } from '@screens';
+import { AuthState, logout, RootState, useDeleteAccountMutation } from '@store';
+import { AlertDialog, Box, Button, Divider, Icon, Pressable, useColorMode, useTheme, VStack } from 'native-base';
+import { useCallback, useEffect, useRef, useState } from 'react';
+import { StyleSheet } from 'react-native';
+import { useDispatch, useSelector } from 'react-redux';
 
-import { Screens } from "./utils/constants";
+import { Screens } from './utils/constants';
 
 const Drawer = createDrawerNavigator();
 
@@ -30,25 +19,59 @@ const ICONS: Partial<{ [key in Screens]: string | undefined }> = {
 const DrawerContent = (props: any) => {
   const dispatch = useDispatch();
 
-  const { email, name } = useSelector<RootState, AuthState>(
+  const { email, name, token } = useSelector<RootState, AuthState>(
     (state) => state.auth
   );
+
+  const [deleteAccount, { isError, isLoading, isSuccess }] =
+    useDeleteAccountMutation();
+
+  useEffect(() => {
+    if (isSuccess) {
+      dispatch(logout());
+    }
+  }, []);
+
+  const [isOpen, setIsOpen] = useState(false);
 
   const onPressLogout = useCallback(() => {
     dispatch(logout());
   }, []);
+
+  const onDelete = useCallback(async () => {
+    await deleteAccount({
+      token,
+    }).unwrap();
+  }, []);
+
+  const cancelRef = useRef(null);
+
+  const onClose = useCallback(() => {
+    setIsOpen(false);
+  }, []);
+
   return (
     <>
       <DrawerContentScrollView {...props} safeArea>
         <VStack space="6" my="2" mx="1">
-          <Box px="4">
-            <Text bold color="gray.700">
-              {name}
-            </Text>
-            <Text fontSize="14" mt="1" color="gray.500" fontWeight="500">
-              {email}
-            </Text>
-          </Box>
+          <HStack>
+            <Box px="4">
+              <Text bold color="gray.700">
+                {name}
+              </Text>
+              <Text fontSize="14" mt="1" color="gray.500" fontWeight="500">
+                {email}
+              </Text>
+            </Box>
+            <Box alignItems={"center"} justifyContent={"center"}>
+              <Pressable onPress={onPressLogout}>
+                <Icon
+                  size="lg"
+                  as={<MaterialCommunityIcons name={"logout"} />}
+                />
+              </Pressable>
+            </Box>
+          </HStack>
           <Divider />
           <VStack space="4" height={"full"}>
             <VStack space="3">
@@ -93,13 +116,48 @@ const DrawerContent = (props: any) => {
       </DrawerContentScrollView>
       <Divider />
       <VStack space="5">
-        <Pressable px="5" py="3" onPress={onPressLogout}>
+        <Pressable px="5" py="3" onPress={() => setIsOpen(true)}>
           <HStack space="7" alignItems="center">
-            <Icon size="5" as={<MaterialCommunityIcons name={"logout"} />} />
-            <Text fontWeight="500">{"Logout "}</Text>
+            <Icon
+              size="5"
+              as={<MaterialCommunityIcons name={"delete"} />}
+              color={"red.500"}
+            />
+            <Text fontWeight="500" color={"red.500"}>
+              {"Delete Account "}
+            </Text>
           </HStack>
         </Pressable>
       </VStack>
+      <AlertDialog
+        leastDestructiveRef={cancelRef}
+        isOpen={isOpen}
+        onClose={onClose}
+      >
+        <AlertDialog.Content>
+          <AlertDialog.CloseButton />
+          <AlertDialog.Header>Delete Customer</AlertDialog.Header>
+          <AlertDialog.Body>
+            This will remove all data relating to {name}. This action cannot be
+            reversed. Deleted data can not be recovered.
+          </AlertDialog.Body>
+          <AlertDialog.Footer>
+            <Button.Group space={2}>
+              <Button
+                variant="unstyled"
+                colorScheme="coolGray"
+                onPress={onClose}
+                ref={cancelRef}
+              >
+                Cancel
+              </Button>
+              <Button colorScheme="danger" onPress={onDelete}>
+                Delete
+              </Button>
+            </Button.Group>
+          </AlertDialog.Footer>
+        </AlertDialog.Content>
+      </AlertDialog>
     </>
   );
 };
