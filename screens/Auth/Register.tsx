@@ -11,7 +11,7 @@ import { StackNavProps } from 'StackNavigation';
 
 import { saveEntryAsJson } from '../../utils/AsyncStorage';
 import { Screens } from '../../utils/constants';
-import { getHashedPassword } from '../../utils/HashPassword';
+import { getEncodedPassword } from '../../utils/EncodePassword';
 
 type RegisterationForm = {
   name: string;
@@ -54,7 +54,7 @@ export const Register = () => {
       await register({
         email,
         name,
-        password: getHashedPassword(password),
+        password: getEncodedPassword(password),
       }).unwrap();
     },
     []

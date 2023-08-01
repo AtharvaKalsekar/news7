@@ -1,4 +1,3 @@
-// import { Alert } from '@components';
 import { useAlertToast } from '@hooks';
 import { useNavigation } from '@react-navigation/native';
 import { setAuthState, useLoginMutation } from '@store';
@@ -10,8 +9,9 @@ import { useDispatch } from 'react-redux';
 import { StackNavProps } from 'StackNavigation';
 
 import { Screens } from '../../utils/constants';
-import { getHashedPassword } from '../../utils/HashPassword';
+import { getEncodedPassword } from '../../utils/EncodePassword';
 
+// import { Alert } from '@components';
 type LoginForm = {
   email: string;
   password: string;
@@ -50,7 +50,7 @@ export const Login = () => {
   const onSubmit = useCallback(async ({ email, password }: LoginForm) => {
     await login({
       email,
-      password: getHashedPassword(password),
+      password: getEncodedPassword(password),
     }).unwrap();
   }, []);
 

@@ -7,7 +7,7 @@ import { Controller, useForm } from 'react-hook-form';
 import { StyleSheet } from 'react-native';
 import { useSelector } from 'react-redux';
 
-import { getHashedPassword } from '../../../utils/HashPassword';
+import { getEncodedPassword } from '../../../utils/EncodePassword';
 
 type SetNewPasswordForm = {
   password: string;
@@ -43,7 +43,7 @@ export const SetNewPassword = () => {
 
   const onSubmit = useCallback(async ({ password }: SetNewPasswordForm) => {
     await setNewPassword({
-      password: getHashedPassword(password),
+      password: getEncodedPassword(password),
       token,
     }).unwrap();
   }, []);

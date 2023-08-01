@@ -81,3 +81,17 @@ add  "react-native-reanimated/plugin", to babel.config.js plugins
   const buf = new Uint8Array(len);
   return Array.from(buf.map(() => Math.floor(Math.random() * 256)));
 });
+
+# removed local.dev.ps1 and local.prod.ps1
+1. updated to Expo SDK 49.0.6
+ -> replace expo version in package.json
+ -> npm i
+ -> npx expo install --fix  // this fixes other dependency versions
+2. In Expo 49, the env handling process is easier so removed local.dev.ps1 and local.prod.ps1
+ -> created .env.development and .env.production files
+ -> added local-dev in package.json scripts: "local-dev": "set \"NODE_ENV=development\" && npx expo start -c",
+ -> added local-prod in package.json scripts: "local-prod": "set \"NODE_ENV=production\" && npx expo start -c",
+ -> ref https://docs.expo.dev/guides/environment-variables/#using-a-dotenv-file
+
+# remove bcryptjs and add js-base64
+-> npm uninstall bcryptjs
