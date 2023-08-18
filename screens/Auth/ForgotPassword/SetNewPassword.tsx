@@ -26,7 +26,7 @@ export const SetNewPassword = () => {
 
   const { showErrorToast, showSuccessToast, clearAllToasts } = useAlertToast();
 
-  const [setNewPassword, { isError, error, isSuccess }] =
+  const [setNewPassword, { isError, error, isSuccess, isLoading }] =
     useSetNewPasswordMutation();
 
   useEffect(() => {
@@ -93,6 +93,8 @@ export const SetNewPassword = () => {
           colorScheme={"orange"}
           style={styles.submitButton}
           onPress={handleSubmit(onSubmit)}
+          isLoading={isLoading}
+          isLoadingText="Submitting"
         >
           {"Submit "}
         </Button>

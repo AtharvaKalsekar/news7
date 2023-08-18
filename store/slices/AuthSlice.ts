@@ -1,6 +1,6 @@
 import { ActionReducerMapBuilder, createSlice } from '@reduxjs/toolkit';
 
-import { deleteEntry, saveEntryAsJson } from '../../utils/AsyncStorage';
+import { deleteEntry } from '../../utils/AsyncStorage';
 import { AuthApi } from '../apis/AuthApi';
 
 export type AuthState = {
@@ -53,7 +53,7 @@ export const AuthSlice = createSlice({
         state.token = payload.token;
         state.isEmailVerified = payload.isEmailVerified;
         state.isPasswordReset = false;
-        saveEntryAsJson("userData", payload);
+        // saveEntryAsJson("userData", payload);
       }
     );
     builder.addMatcher(
@@ -71,7 +71,7 @@ export const AuthSlice = createSlice({
         state.token = payload.token;
         state.isEmailVerified = payload.isEmailVerified;
         state.isPasswordReset = false;
-        saveEntryAsJson("userData", payload);
+        // saveEntryAsJson("userData", payload);
       }
     );
     builder.addMatcher(
@@ -85,7 +85,7 @@ export const AuthSlice = createSlice({
       AuthApi.endpoints.verifyOtp.matchFulfilled,
       (state, { payload }) => {
         state.isEmailVerified = payload.isEmailVerified;
-        saveEntryAsJson("userData", payload);
+        // saveEntryAsJson("userData", payload);
       }
     );
     builder.addMatcher(

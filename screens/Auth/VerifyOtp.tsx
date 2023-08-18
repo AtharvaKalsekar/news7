@@ -97,6 +97,8 @@ export const VerifyOtp = () => {
         style={buttonStyles}
         alignSelf="center"
         onPress={onClickVerifyOtp}
+        isLoading={verifyOtpResult.isLoading}
+        isLoadingText="Verifying"
       >
         Verify OTP
       </Button>

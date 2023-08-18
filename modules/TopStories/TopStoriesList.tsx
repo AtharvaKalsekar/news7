@@ -1,13 +1,19 @@
 import { Article } from '@models';
-import { FlatList, StyleSheet } from 'react-native';
+import { useTheme } from 'native-base';
+import { useCallback, useState } from 'react';
+import { FlatList, RefreshControl, StyleSheet } from 'react-native';
 
 import { TopStoriesListItem } from './TopStoriesListItem';
 
 type Props = {
   stories: Article[];
+  onRefresh: () => void;
+  refreshing: boolean;
 };
 
-export const TopStoriesList = ({ stories }: Props) => {
+export const TopStoriesList = ({ stories, refreshing, onRefresh }: Props) => {
+  const { colors } = useTheme();
+
   return (
     <FlatList
       data={stories}
@@ -15,6 +21,13 @@ export const TopStoriesList = ({ stories }: Props) => {
       renderItem={({ item }) => {
         return <TopStoriesListItem story={item} key={item.uri} />;
       }}
+      refreshControl={
+        <RefreshControl
+          refreshing={refreshing}
+          onRefresh={onRefresh}
+          colors={[colors.orange["500"], "white"]}
+        />
+      }
     ></FlatList>
   );
 };

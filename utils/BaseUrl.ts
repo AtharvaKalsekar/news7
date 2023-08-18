@@ -1,10 +1,8 @@
 import Constants from 'expo-constants';
 
-//@ts-ignore
-// import { ENVIRONMENT } from "@env";
-const { manifest, expoConfig } = Constants;
+const { expoConfig } = Constants;
 
-const ENVIRONMENT = process.env.EXPO_PUBLIC_ENVIRONMENT; //Constants.expoConfig?.extra?.environment;
+const ENVIRONMENT = process.env.EXPO_PUBLIC_ENVIRONMENT;
 
 export const getBaseUrl = () => {
   if (ENVIRONMENT === "local") {

@@ -55,15 +55,19 @@ const DrawerContent = (props: any) => {
       <DrawerContentScrollView {...props} safeArea>
         <VStack space="6" my="2" mx="1">
           <HStack>
-            <Box px="4">
-              <Text bold color="gray.700">
-                {name}
+            <Box w={"3/4"} paddingLeft={4} flexWrap={"wrap"}>
+              <Text bold color="gray.700" fontSize={"lg"}>
+                {name}{" "}
               </Text>
-              <Text fontSize="14" mt="1" color="gray.500" fontWeight="500">
-                {email}
+              <Text fontSize="xs" mt="1" color="gray.300" fontWeight="hairline">
+                {`${email}`}{" "}
               </Text>
             </Box>
-            <Box alignItems={"center"} justifyContent={"center"}>
+            <Box
+              marginLeft={"5"}
+              alignItems={"center"}
+              justifyContent={"center"}
+            >
               <Pressable onPress={onPressLogout}>
                 <Icon
                   size="lg"
@@ -81,9 +85,7 @@ const DrawerContent = (props: any) => {
                   py="3"
                   rounded="md"
                   bg={
-                    index === props.state.index
-                      ? "rgba(6, 182, 212, 0.1)"
-                      : "transparent"
+                    index === props.state.index ? "orange.100" : "transparent"
                   }
                   onPress={(event) => {
                     props.navigation.navigate(name);
@@ -93,14 +95,15 @@ const DrawerContent = (props: any) => {
                   <HStack space="7" alignItems="center">
                     <Icon
                       color={
-                        index === props.state.index ? "primary.500" : "gray.500"
+                        index === props.state.index ? "orange.400" : "gray.500"
                       }
                       size="5"
                       //@ts-ignore
                       as={<MaterialCommunityIcons name={ICONS[name]} />}
                     />
                     <Text
-                      fontWeight="500"
+                      fontWeight="bold"
+                      fontSize={"md"}
                       color={
                         index === props.state.index ? "primary.500" : "gray.700"
                       }
@@ -123,8 +126,8 @@ const DrawerContent = (props: any) => {
               as={<MaterialCommunityIcons name={"delete"} />}
               color={"red.500"}
             />
-            <Text fontWeight="500" color={"red.500"}>
-              {"Delete Account "}
+            <Text fontWeight="bold" color={"red.500"} fontSize={"md"}>
+              {"Delete Account "}{" "}
             </Text>
           </HStack>
         </Pressable>

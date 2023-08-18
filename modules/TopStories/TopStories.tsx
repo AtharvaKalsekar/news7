@@ -1,28 +1,44 @@
-import { Section } from "@models";
-import { AuthState, RootState } from "@store";
-import { Box, Center, useTheme } from "native-base";
-import { useCallback, useState } from "react";
-import { ActivityIndicator, StyleSheet } from "react-native";
-import { useSelector } from "react-redux";
+import { useAlertToast } from '@hooks';
+import { Section } from '@models';
+import { AuthState, RootState } from '@store';
+import { Box, Center, useTheme } from 'native-base';
+import { useCallback, useState } from 'react';
+import { ActivityIndicator, StyleSheet, Text } from 'react-native';
+import { useSelector } from 'react-redux';
 
-import { useGetTopStoriesQuery } from "../../store/apis";
-import { SectionsMenu } from "./SectionsMenu";
-import { TopStoriesList } from "./TopStoriesList";
+import { useGetTopStoriesQuery } from '../../store/apis';
+import { SectionsMenu } from './SectionsMenu';
+import { TopStoriesList } from './TopStoriesList';
 
 export const TopStories = () => {
   const [selectedSection, setSelectedSection] = useState<Section>(Section.ARTS);
   const { token } = useSelector<RootState, AuthState>((state) => state.auth);
+  const { showErrorToast } = useAlertToast();
 
-  const { data, isError, isFetching, isLoading } = useGetTopStoriesQuery({
-    section: selectedSection,
-    token,
-  });
+  const { data, isError, isFetching, isLoading, refetch } =
+    useGetTopStoriesQuery({
+      section: selectedSection,
+      token,
+    });
 
   const onSelectSection = useCallback((section: Section) => {
     setSelectedSection(section);
   }, []);
 
   const { colors } = useTheme();
+
+  const [refreshing, setRefreshing] = useState(false);
+
+  const onRefresh = useCallback(() => {
+    setRefreshing(true);
+    refetch()
+      .then(() => {
+        setRefreshing(false);
+      })
+      .catch(() => {
+        showErrorToast("Unable to refresh");
+      });
+  }, []);
 
   return (
     <Box
@@ -41,9 +57,14 @@ export const TopStories = () => {
       {isLoading || isFetching ? (
         <Center h="full" w="full">
           <ActivityIndicator size={50} color={colors.orange[600]} />
+          <Text>{"Fetching news ..."}</Text>
         </Center>
       ) : (
-        <TopStoriesList stories={data} />
+        <TopStoriesList
+          refreshing={refreshing}
+          onRefresh={onRefresh}
+          stories={data}
+        />
       )}
     </Box>
   );

@@ -1,12 +1,11 @@
 import { Text } from '@components';
 import { useAlertToast } from '@hooks';
 import { useNavigation } from '@react-navigation/native';
-import { setAuthState, useRegisterMutation } from '@store';
+import { useRegisterMutation } from '@store';
 import { Button, Center, FormControl, Input, Link, Stack, WarningOutlineIcon } from 'native-base';
 import React, { useCallback, useEffect, useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { KeyboardAvoidingView, StyleSheet } from 'react-native';
-import { useDispatch } from 'react-redux';
 import { StackNavProps } from 'StackNavigation';
 
 import { saveEntryAsJson } from '../../utils/AsyncStorage';
@@ -36,12 +35,10 @@ export const Register = () => {
 
   const [register, registerResult] = useRegisterMutation();
   const { showErrorToast } = useAlertToast();
-  const dispath = useDispatch();
 
   useEffect(() => {
     if (registerResult.isSuccess) {
       saveEntryAsJson("userData", registerResult.data);
-      dispath(setAuthState(registerResult.data));
       navigate(Screens.VERIFY_OTP);
     } else if (registerResult.isError) {
       //@ts-ignore
@@ -65,9 +62,7 @@ export const Register = () => {
       <Center style={styles.innerContainer}>
         <FormControl isInvalid={!!errors.name} marginY={3}>
           <Stack mx="4">
-            <FormControl.Label>
-              <Text style={styles.inputLabel}>Username </Text>
-            </FormControl.Label>
+            <Text style={styles.inputLabel}>Username </Text>
             <Controller
               control={control}
               rules={{
@@ -94,9 +89,7 @@ export const Register = () => {
         </FormControl>
         <FormControl isInvalid={!!errors.email} marginY={3}>
           <Stack mx="4">
-            <FormControl.Label>
-              <Text style={styles.inputLabel}>Email </Text>
-            </FormControl.Label>
+            <Text style={styles.inputLabel}>Email </Text>
             <Controller
               control={control}
               rules={{
@@ -132,9 +125,7 @@ export const Register = () => {
         </FormControl>
         <FormControl isInvalid={!!errors.password} marginY={3}>
           <Stack mx="4">
-            <FormControl.Label>
-              <Text style={styles.inputLabel}>Password</Text>
-            </FormControl.Label>
+            <Text style={styles.inputLabel}>Password</Text>
             <Controller
               control={control}
               rules={{
@@ -172,12 +163,25 @@ export const Register = () => {
           colorScheme={"orange"}
           style={styles.registerButton}
           onPress={handleSubmit(onSubmit)}
+          isLoading={registerResult.isLoading}
+          isLoadingText="Registering"
         >
           {"Register "}
         </Button>
-        <Link style={styles.otherLink} onPress={() => navigate(Screens.LOGIN)}>
-          <Text>Already registered?. Login here.</Text>
-        </Link>
+        {!registerResult.isLoading && (
+          <Text marginTop={5}>
+            <Link
+              style={styles.otherLink}
+              onPress={() => navigate(Screens.LOGIN)}
+              _text={{
+                textDecoration: "none",
+                color: "orange.500",
+              }}
+            >
+              {"Already registered?. Login here."}
+            </Link>
+          </Text>
+        )}
       </Center>
     </KeyboardAvoidingView>
   );
@@ -190,6 +194,7 @@ const styles = StyleSheet.create({
   inputLabel: {
     fontWeight: "700",
     color: "black",
+    marginBottom: 10,
   },
   innerContainer: {
     flex: 1,

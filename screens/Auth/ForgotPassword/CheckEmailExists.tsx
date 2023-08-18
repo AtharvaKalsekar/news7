@@ -1,22 +1,14 @@
-import { Text } from "@components";
-import { useAlertToast } from "@hooks";
-import { useNavigation } from "@react-navigation/native";
-import { useCheckEmailExistsMutation } from "@store";
-import {
-  Button,
-  Center,
-  FormControl,
-  Input,
-  KeyboardAvoidingView,
-  Stack,
-  WarningOutlineIcon,
-} from "native-base";
-import { useCallback, useEffect } from "react";
-import { Controller, useForm } from "react-hook-form";
-import { StyleSheet } from "react-native";
+import { Text } from '@components';
+import { useAlertToast } from '@hooks';
+import { useNavigation } from '@react-navigation/native';
+import { useCheckEmailExistsMutation } from '@store';
+import { Button, Center, FormControl, Input, KeyboardAvoidingView, Stack, WarningOutlineIcon } from 'native-base';
+import { useCallback, useEffect } from 'react';
+import { Controller, useForm } from 'react-hook-form';
+import { StyleSheet } from 'react-native';
 
-import { StackNavProps } from "../../../StackNavigation";
-import { Screens } from "../../../utils/constants";
+import { StackNavProps } from '../../../StackNavigation';
+import { Screens } from '../../../utils/constants';
 
 type CheckEmailExistsForm = {
   email: string;
@@ -35,7 +27,7 @@ export const CheckEmailExists = () => {
 
   const { showErrorToast, showSuccessToast } = useAlertToast();
 
-  const [checkEmailExists, { isError, error, isSuccess }] =
+  const [checkEmailExists, { isError, error, isSuccess, isLoading }] =
     useCheckEmailExistsMutation();
 
   const { navigate } = useNavigation<StackNavProps>();
@@ -100,6 +92,8 @@ export const CheckEmailExists = () => {
           colorScheme={"orange"}
           style={styles.submitButton}
           onPress={handleSubmit(onSubmit)}
+          isLoading={isLoading}
+          isLoadingText={"Submitting"}
         >
           {"Submit "}
         </Button>

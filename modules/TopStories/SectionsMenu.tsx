@@ -16,7 +16,7 @@ export const SectionsMenu = ({ selectedSection, onSelectSection }: Props) => {
       _light={{ backgroundColor: "white" }}
       _dark={{ backgroundColor: "black" }}
     >
-      <ScrollView horizontal>
+      <ScrollView horizontal showsHorizontalScrollIndicator={false}>
         <HStack style={style.container} space={3}>
           {Object.entries(Section).map(([key, value]) => {
             return (
@@ -43,7 +43,7 @@ export const SectionsMenu = ({ selectedSection, onSelectSection }: Props) => {
 const style = StyleSheet.create({
   scrollView: {
     height: 50,
-    paddingVertical: 3,
+    paddingVertical: 5,
   },
   container: {
     height: 40,
