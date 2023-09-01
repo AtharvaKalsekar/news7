@@ -3,7 +3,7 @@ import { Article } from '@models';
 import { useNavigation } from '@react-navigation/native';
 import { Box } from 'native-base';
 import { useCallback, useState } from 'react';
-import { Image, Pressable, StyleSheet } from 'react-native';
+import { Image, Pressable, StyleSheet, Text as RNText } from 'react-native';
 import { StackNavProps } from 'StackNavigation';
 
 import { Screens } from '../../utils/constants';
@@ -60,9 +60,16 @@ export const TopStoriesListItem = ({ story }: Props) => {
           padding={2}
           flexWrap={"wrap"}
         >
-          <Text fontSize={18} fontWeight={"semibold"} lineHeight={"sm"}>
-            {story.title}{" "}
-          </Text>
+          <RNText>
+            <Text
+              fontSize={18}
+              fontWeight={"bold"}
+              fontFamily={"Roboto"}
+              lineHeight={"sm"}
+            >
+              {story.title}
+            </Text>
+          </RNText>
           <Text style={{ fontSize: 10, fontWeight: "normal" }}>
             {new Date(story.published_date).toDateString()}
           </Text>
