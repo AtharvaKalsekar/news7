@@ -3,9 +3,9 @@ import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { createDrawerNavigator, DrawerContentScrollView } from '@react-navigation/drawer';
 import { Home } from '@screens';
 import { AuthState, logout, RootState, useDeleteAccountMutation } from '@store';
-import { AlertDialog, Box, Button, Divider, Icon, Pressable, useColorMode, useTheme, VStack } from 'native-base';
+import { AlertDialog, Box, Button, Divider, Icon, Pressable, Switch, useColorMode, useTheme, VStack } from 'native-base';
 import { useCallback, useEffect, useRef, useState } from 'react';
-import { StyleSheet } from 'react-native';
+import { StyleSheet, SwitchChangeEvent } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { Screens } from './utils/constants';
@@ -25,6 +25,8 @@ const DrawerContent = (props: any) => {
 
   const [deleteAccount, { isError, isLoading, isSuccess }] =
     useDeleteAccountMutation();
+
+  const { toggleColorMode, colorMode } = useColorMode();
 
   useEffect(() => {
     if (isSuccess) {
@@ -50,8 +52,12 @@ const DrawerContent = (props: any) => {
     setIsOpen(false);
   }, []);
 
+  const onThemeToggle = useCallback((event: SwitchChangeEvent) => {
+    toggleColorMode();
+  }, []);
+
   return (
-    <>
+    <Box _dark={{ bg: "gray.900" }} _light={{ bg: "white" }} flex={1}>
       <DrawerContentScrollView {...props} safeArea>
         <VStack space="6" my="2" mx="1">
           <HStack>
@@ -84,9 +90,16 @@ const DrawerContent = (props: any) => {
                   px="5"
                   py="3"
                   rounded="md"
-                  bg={
-                    index === props.state.index ? "orange.100" : "transparent"
-                  }
+                  _light={{
+                    bg:
+                      index === props.state.index
+                        ? "orange.100"
+                        : "transparent",
+                  }}
+                  _dark={{
+                    bg:
+                      index === props.state.index ? "gray.600" : "transparent",
+                  }}
                   onPress={(event) => {
                     props.navigation.navigate(name);
                   }}
@@ -117,6 +130,21 @@ const DrawerContent = (props: any) => {
           </VStack>
         </VStack>
       </DrawerContentScrollView>
+      <VStack space="5">
+        <Pressable px="5" py="3" onPress={() => setIsOpen(true)}>
+          <HStack space="7" alignItems="center">
+            <Icon
+              size="5"
+              as={<MaterialCommunityIcons name={"theme-light-dark"} />}
+              color={"yellow.500"}
+            />
+            <Text fontWeight="bold" color={"red.500"} fontSize={"md"}>
+              {"Dark mode "}{" "}
+            </Text>
+            <Switch colorScheme={"orange"} onChange={onThemeToggle} />
+          </HStack>
+        </Pressable>
+      </VStack>
       <Divider />
       <VStack space="5">
         <Pressable px="5" py="3" onPress={() => setIsOpen(true)}>
@@ -137,7 +165,14 @@ const DrawerContent = (props: any) => {
         isOpen={isOpen}
         onClose={onClose}
       >
-        <AlertDialog.Content>
+        <AlertDialog.Content
+          _light={{
+            bg: "white",
+          }}
+          _dark={{
+            bg: "gray.600",
+          }}
+        >
           <AlertDialog.CloseButton />
           <AlertDialog.Header>Delete Customer</AlertDialog.Header>
           <AlertDialog.Body>
@@ -151,17 +186,22 @@ const DrawerContent = (props: any) => {
                 colorScheme="coolGray"
                 onPress={onClose}
                 ref={cancelRef}
+                _dark={{
+                  _text: {
+                    color: "white",
+                  },
+                }}
               >
-                Cancel
+                {"Cancel "}
               </Button>
               <Button colorScheme="danger" onPress={onDelete}>
-                Delete
+                {"Delete "}
               </Button>
             </Button.Group>
           </AlertDialog.Footer>
         </AlertDialog.Content>
       </AlertDialog>
-    </>
+    </Box>
   );
 };
 
@@ -197,20 +237,6 @@ export const DrawerNavigation = () => {
           },
           headerTitle: "News71",
           headerTintColor: "white",
-          // headerRight: (props) => {
-          //   const onChange = () => {
-          //     toggleColorMode();
-          //   };
-          //   return (
-          //     <Switch
-          //       size={"md"}
-          //       onChange={onChange}
-          //       offTrackColor={"white"}
-          //       onTrackColor={"black"}
-          //       thumbColor={"lightgray"}
-          //     />
-          //   );
-          // },
         }}
       />
     </Drawer.Navigator>

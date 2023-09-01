@@ -1,7 +1,7 @@
 import { useAlertToast } from '@hooks';
 import { Section } from '@models';
 import { AuthState, RootState } from '@store';
-import { Box, Center, useTheme } from 'native-base';
+import { Box, Center, useColorMode, useTheme } from 'native-base';
 import { useCallback, useState } from 'react';
 import { ActivityIndicator, StyleSheet, Text } from 'react-native';
 import { useSelector } from 'react-redux';
@@ -26,6 +26,7 @@ export const TopStories = () => {
   }, []);
 
   const { colors } = useTheme();
+  const { colorMode } = useColorMode();
 
   const [refreshing, setRefreshing] = useState(false);
 
@@ -57,7 +58,7 @@ export const TopStories = () => {
       {isLoading || isFetching ? (
         <Center h="full" w="full">
           <ActivityIndicator size={50} color={colors.orange[600]} />
-          <Text>{"Fetching news ..."}</Text>
+          <Text style={{ color: "orange" }}>{"Fetching news ..."}</Text>
         </Center>
       ) : (
         <TopStoriesList

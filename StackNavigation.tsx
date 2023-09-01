@@ -1,22 +1,15 @@
-import { Article as TArticle } from "@models";
-import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import {
-  Article,
-  CheckEmailExists,
-  Login,
-  Register,
-  SetNewPassword,
-  VerifyOtp,
-} from "@screens";
-import { AuthState, RootState, setAuthState } from "@store";
-import { useColorMode, useTheme } from "native-base";
-import { useEffect } from "react";
-import { StyleSheet } from "react-native";
-import { useDispatch, useSelector } from "react-redux";
+import { Article as TArticle } from '@models';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { Article, CheckEmailExists, Login, Register, SetNewPassword, VerifyOtp } from '@screens';
+import { AuthState, RootState, setAuthState } from '@store';
+import { useTheme } from 'native-base';
+import { useEffect } from 'react';
+import { StyleSheet } from 'react-native';
+import { useDispatch, useSelector } from 'react-redux';
 
-import { DrawerNavigation } from "./DrawerNavigation";
-import { getEntryAsJson } from "./utils/AsyncStorage";
-import { Screens } from "./utils/constants";
+import { DrawerNavigation } from './DrawerNavigation';
+import { getEntryAsJson } from './utils/AsyncStorage';
+import { Screens } from './utils/constants';
 
 import type { NativeStackNavigationProp } from "@react-navigation/native-stack";
 const Stack = createNativeStackNavigator();
@@ -36,7 +29,6 @@ export type StackNavProps = NativeStackNavigationProp<StackNavParamList>;
 
 export const StackNavigation = () => {
   const { colors } = useTheme();
-  const { toggleColorMode, colorMode } = useColorMode();
 
   const { token, isEmailVerified, isPasswordReset } = useSelector<
     RootState,
@@ -82,15 +74,6 @@ export const StackNavigation = () => {
           />
         </Stack.Group>
       ) : (
-        // : token && !isEmailVerified ? (
-        //   <Stack.Screen
-        //     name={Screens.VERIFY_OTP}
-        //     component={VerifyOtp}
-        //     options={{
-        //       headerShown: false,
-        //     }}
-        //   />
-        // )
         <Stack.Group>
           <Stack.Screen
             name={Screens.REGISTER}
