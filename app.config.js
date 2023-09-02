@@ -7,7 +7,7 @@ export default () => ({
     icon: "./assets/icon.png",
     userInterfaceStyle: "light",
     splash: {
-      image: "./assets/splash.png",
+      image: "./assets/news71-logo.png",
       resizeMode: "contain",
       backgroundColor: "#ffffff",
     },
@@ -20,7 +20,7 @@ export default () => ({
     },
     android: {
       adaptiveIcon: {
-        foregroundImage: "./assets/adaptive-icon.png",
+        foregroundImage: "./assets/news71-logo.png",
         backgroundColor: "#FFFFFF",
       },
       package: "com.athar7a.news71",

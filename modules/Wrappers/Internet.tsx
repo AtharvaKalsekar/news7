@@ -58,7 +58,9 @@ export const Internet = ({ children }: Props) => {
       {checkingInProgress && (
         <Center h="full" w="full">
           <ActivityIndicator size={50} color={colors.orange[600]} />
-          <Text> Checking internet connection ... </Text>
+          <Text fontFamily={"Roboto"}>
+            {" Checking internet connection ... "}
+          </Text>
         </Center>
       )}
       {!internetAvailable && (

@@ -3,7 +3,7 @@ import { useAlertToast } from '@hooks';
 import { FormLabel, ScreenContainer } from '@modules';
 import { useNavigation } from '@react-navigation/native';
 import { useRegisterMutation } from '@store';
-import { Button, FormControl, Input, Link, Stack, WarningOutlineIcon } from 'native-base';
+import { Button, FormControl, Image, Input, Link, Stack, WarningOutlineIcon } from 'native-base';
 import React, { useCallback, useEffect, useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { KeyboardAvoidingView, StyleSheet } from 'react-native';
@@ -61,6 +61,10 @@ export const Register = () => {
   return (
     <KeyboardAvoidingView style={styles.container}>
       <ScreenContainer>
+        <Image
+          style={styles.image}
+          source={require("../../assets/news71-logo.png")}
+        />
         <FormControl isInvalid={!!errors.name} marginY={3}>
           <Stack mx="4">
             <FormLabel label="Username" />
@@ -205,5 +209,10 @@ const styles = StyleSheet.create({
   },
   otherLink: {
     marginTop: 10,
+  },
+  image: {
+    width: "50%",
+    height: "20%",
+    objectFit: "contain",
   },
 });
