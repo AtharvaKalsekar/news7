@@ -147,7 +147,7 @@ const DrawerContent = (props: any) => {
               onValueChange={onThemeToggle}
               size={"md"}
               marginLeft={"7"}
-              isChecked={colorMode === "dark"}
+              defaultIsChecked={colorMode === "dark"}
             />
           </HStack>
         </Pressable>
