@@ -37,7 +37,7 @@ export default function App() {
           <NavigationContainer>
             <StackNavigation />
           </NavigationContainer>
-          <StatusBar style="light" />
+          <StatusBar hidden />
         </Internet>
       </Provider>
     </NativeBaseProvider>

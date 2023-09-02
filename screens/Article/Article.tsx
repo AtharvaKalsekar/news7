@@ -1,8 +1,8 @@
-import { Article as TArticle } from "@models";
-import { ArticleTextView } from "@modules";
-import { useRoute } from "@react-navigation/native";
-import { Box } from "native-base";
-import { Image, StyleSheet } from "react-native";
+import { Article as TArticle } from '@models';
+import { ArticleTextView } from '@modules';
+import { useRoute } from '@react-navigation/native';
+import { Box } from 'native-base';
+import { Image, StyleSheet } from 'react-native';
 
 export const Article = () => {
   const { params } = useRoute() as Partial<{ params: TArticle }>;
@@ -39,7 +39,8 @@ const styles = StyleSheet.create({
   },
   image: {
     width: "100%",
-    height: "50%",
+    minHeight: "60%",
+    objectFit: "cover",
   },
   textContainer: {
     marginTop: 15,

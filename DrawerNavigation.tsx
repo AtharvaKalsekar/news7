@@ -26,7 +26,7 @@ const DrawerContent = (props: any) => {
   const [deleteAccount, { isError, isLoading, isSuccess }] =
     useDeleteAccountMutation();
 
-  const { setColorMode, toggleColorMode } = useColorMode();
+  const { setColorMode, colorMode } = useColorMode();
 
   useEffect(() => {
     if (isSuccess) {
@@ -147,6 +147,7 @@ const DrawerContent = (props: any) => {
               onValueChange={onThemeToggle}
               size={"md"}
               marginLeft={"7"}
+              isChecked={colorMode === "dark"}
             />
           </HStack>
         </Pressable>
