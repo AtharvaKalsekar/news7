@@ -1,7 +1,8 @@
 import { useAlertToast } from '@hooks';
+import { FormLabel, ScreenContainer } from '@modules';
 import { useNavigation } from '@react-navigation/native';
 import { useLoginMutation } from '@store';
-import { Button, Center, FormControl, Input, Link, Stack, Text, WarningOutlineIcon } from 'native-base';
+import { Button, FormControl, Input, Link, Stack, Text, WarningOutlineIcon } from 'native-base';
 import React, { useCallback, useEffect, useMemo } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { KeyboardAvoidingView, StyleSheet } from 'react-native';
@@ -57,10 +58,10 @@ export const Login = () => {
 
   return (
     <KeyboardAvoidingView style={styles.container}>
-      <Center style={styles.innerContainer}>
+      <ScreenContainer>
         <FormControl isInvalid={!!errors.email} marginY={3}>
           <Stack mx="4">
-            <Text style={styles.inputLabel}>Email </Text>
+            <FormLabel label="Email" />
             <Controller
               control={control}
               rules={{
@@ -73,6 +74,7 @@ export const Login = () => {
                   value={value}
                   placeholder="Enter email address"
                   keyboardType="email-address"
+                  focusOutlineColor={"orange.500"}
                 />
               )}
               name="email"
@@ -95,7 +97,7 @@ export const Login = () => {
         </FormControl>
         <FormControl isInvalid={!!errors.password} marginY={3}>
           <Stack mx="4">
-            <Text style={styles.inputLabel}>Password</Text>
+            <FormLabel label="Password" />
             <Controller
               control={control}
               rules={{
@@ -108,6 +110,7 @@ export const Login = () => {
                   value={value}
                   placeholder="Enter password"
                   type="password"
+                  focusOutlineColor={"orange.500"}
                 />
               )}
               name="password"
@@ -130,7 +133,7 @@ export const Login = () => {
         >
           {"Login "}
         </Button>
-        {!isLoading && (
+        {!isLoading ? (
           <Text marginTop={5} color={"orange.300"}>
             <Link
               style={styles.otherLink}
@@ -143,8 +146,10 @@ export const Login = () => {
               Not registered?. Sign-up here.
             </Link>
           </Text>
+        ) : (
+          <></>
         )}
-        {!isLoading && (
+        {!isLoading ? (
           <Text marginTop={3}>
             <Link
               style={styles.otherLink}
@@ -157,8 +162,10 @@ export const Login = () => {
               Forgot Password?
             </Link>
           </Text>
+        ) : (
+          <></>
         )}
-      </Center>
+      </ScreenContainer>
     </KeyboardAvoidingView>
   );
 };
@@ -166,15 +173,6 @@ export const Login = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-  },
-  inputLabel: {
-    fontWeight: "700",
-    color: "black",
-    marginBottom: 10,
-  },
-  innerContainer: {
-    flex: 1,
-    paddingHorizontal: 5,
   },
   registerButton: {
     borderRadius: 5,

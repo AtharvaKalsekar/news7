@@ -1,7 +1,7 @@
-import { Text } from '@components';
 import { useAlertToast } from '@hooks';
+import { FormLabel, ScreenContainer } from '@modules';
 import { AuthState, RootState, useSetNewPasswordMutation } from '@store';
-import { Button, Center, FormControl, Input, KeyboardAvoidingView, Stack, WarningOutlineIcon } from 'native-base';
+import { Button, FormControl, Input, KeyboardAvoidingView, Stack, WarningOutlineIcon } from 'native-base';
 import { useCallback, useEffect } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { StyleSheet } from 'react-native';
@@ -50,12 +50,10 @@ export const SetNewPassword = () => {
 
   return (
     <KeyboardAvoidingView style={styles.container}>
-      <Center style={styles.innerContainer}>
+      <ScreenContainer>
         <FormControl isInvalid={!!errors.password} marginY={3}>
           <Stack mx="4">
-            <FormControl.Label>
-              <Text style={styles.inputLabel}>Set New Password</Text>
-            </FormControl.Label>
+            <FormLabel label="Set New Password" />
             <Controller
               control={control}
               rules={{
@@ -94,11 +92,11 @@ export const SetNewPassword = () => {
           style={styles.submitButton}
           onPress={handleSubmit(onSubmit)}
           isLoading={isLoading}
-          isLoadingText="Submitting"
+          isLoadingText="Submitting "
         >
           {"Submit "}
         </Button>
-      </Center>
+      </ScreenContainer>
     </KeyboardAvoidingView>
   );
 };
@@ -106,14 +104,6 @@ export const SetNewPassword = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-  },
-  inputLabel: {
-    fontWeight: "700",
-    color: "black",
-  },
-  innerContainer: {
-    flex: 1,
-    paddingHorizontal: 5,
   },
   submitButton: {
     borderRadius: 5,

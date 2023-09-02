@@ -5,7 +5,7 @@ import { Home } from '@screens';
 import { AuthState, logout, RootState, useDeleteAccountMutation } from '@store';
 import { AlertDialog, Box, Button, Divider, Icon, Pressable, Switch, useColorMode, useTheme, VStack } from 'native-base';
 import { useCallback, useEffect, useRef, useState } from 'react';
-import { StyleSheet, SwitchChangeEvent } from 'react-native';
+import { StyleSheet } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { Screens } from './utils/constants';
@@ -26,7 +26,7 @@ const DrawerContent = (props: any) => {
   const [deleteAccount, { isError, isLoading, isSuccess }] =
     useDeleteAccountMutation();
 
-  const { toggleColorMode, colorMode } = useColorMode();
+  const { setColorMode, toggleColorMode } = useColorMode();
 
   useEffect(() => {
     if (isSuccess) {
@@ -52,8 +52,9 @@ const DrawerContent = (props: any) => {
     setIsOpen(false);
   }, []);
 
-  const onThemeToggle = useCallback((event: SwitchChangeEvent) => {
-    toggleColorMode();
+  const onThemeToggle = useCallback((value: boolean) => {
+    setColorMode(value ? "dark" : "light");
+    // toggleColorMode();
   }, []);
 
   return (
@@ -132,7 +133,7 @@ const DrawerContent = (props: any) => {
       </DrawerContentScrollView>
       <VStack space="5">
         <Pressable px="5" py="3" onPress={() => setIsOpen(true)}>
-          <HStack space="7" alignItems="center">
+          <HStack space="7" alignItems="center" width={"full"}>
             <Icon
               size="5"
               as={<MaterialCommunityIcons name={"theme-light-dark"} />}
@@ -141,7 +142,12 @@ const DrawerContent = (props: any) => {
             <Text fontWeight="bold" color={"red.500"} fontSize={"md"}>
               {"Dark mode "}{" "}
             </Text>
-            <Switch colorScheme={"orange"} onChange={onThemeToggle} />
+            <Switch
+              colorScheme={"orange"}
+              onValueChange={onThemeToggle}
+              size={"md"}
+              marginLeft={"7"}
+            />
           </HStack>
         </Pressable>
       </VStack>
@@ -207,7 +213,7 @@ const DrawerContent = (props: any) => {
 
 export const DrawerNavigation = () => {
   const { colors } = useTheme();
-  const { toggleColorMode, colorMode } = useColorMode();
+  const { colorMode } = useColorMode();
 
   return (
     <Drawer.Navigator

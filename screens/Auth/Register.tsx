@@ -1,8 +1,9 @@
 import { Text } from '@components';
 import { useAlertToast } from '@hooks';
+import { FormLabel, ScreenContainer } from '@modules';
 import { useNavigation } from '@react-navigation/native';
 import { useRegisterMutation } from '@store';
-import { Button, Center, FormControl, Input, Link, Stack, WarningOutlineIcon } from 'native-base';
+import { Button, FormControl, Input, Link, Stack, WarningOutlineIcon } from 'native-base';
 import React, { useCallback, useEffect, useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { KeyboardAvoidingView, StyleSheet } from 'react-native';
@@ -59,10 +60,10 @@ export const Register = () => {
 
   return (
     <KeyboardAvoidingView style={styles.container}>
-      <Center style={styles.innerContainer}>
+      <ScreenContainer>
         <FormControl isInvalid={!!errors.name} marginY={3}>
           <Stack mx="4">
-            <Text style={styles.inputLabel}>Username </Text>
+            <FormLabel label="Username" />
             <Controller
               control={control}
               rules={{
@@ -74,6 +75,8 @@ export const Register = () => {
                   onChangeText={onChange}
                   value={value}
                   placeholder="Enter user name"
+                  focusOutlineColor={"orange.500"}
+                  cursorColor={"orange"}
                 />
               )}
               name="name"
@@ -89,7 +92,7 @@ export const Register = () => {
         </FormControl>
         <FormControl isInvalid={!!errors.email} marginY={3}>
           <Stack mx="4">
-            <Text style={styles.inputLabel}>Email </Text>
+            <FormLabel label="Email" />
             <Controller
               control={control}
               rules={{
@@ -103,6 +106,7 @@ export const Register = () => {
                   value={value}
                   placeholder="Enter email address"
                   keyboardType="email-address"
+                  focusOutlineColor={"orange.500"}
                 />
               )}
               name="email"
@@ -125,7 +129,7 @@ export const Register = () => {
         </FormControl>
         <FormControl isInvalid={!!errors.password} marginY={3}>
           <Stack mx="4">
-            <Text style={styles.inputLabel}>Password</Text>
+            <FormLabel label="Password" />
             <Controller
               control={control}
               rules={{
@@ -139,6 +143,7 @@ export const Register = () => {
                   value={value}
                   placeholder="Enter password"
                   type="password"
+                  focusOutlineColor={"orange.500"}
                 />
               )}
               name="password"
@@ -168,7 +173,7 @@ export const Register = () => {
         >
           {"Register "}
         </Button>
-        {!registerResult.isLoading && (
+        {!registerResult.isLoading ? (
           <Text marginTop={5}>
             <Link
               style={styles.otherLink}
@@ -181,8 +186,10 @@ export const Register = () => {
               {"Already registered?. Login here."}
             </Link>
           </Text>
+        ) : (
+          <></>
         )}
-      </Center>
+      </ScreenContainer>
     </KeyboardAvoidingView>
   );
 };
@@ -190,15 +197,6 @@ export const Register = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-  },
-  inputLabel: {
-    fontWeight: "700",
-    color: "black",
-    marginBottom: 10,
-  },
-  innerContainer: {
-    flex: 1,
-    paddingHorizontal: 5,
   },
   registerButton: {
     borderRadius: 5,

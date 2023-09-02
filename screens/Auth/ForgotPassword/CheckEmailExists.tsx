@@ -1,8 +1,8 @@
-import { Text } from '@components';
 import { useAlertToast } from '@hooks';
+import { FormLabel, ScreenContainer } from '@modules';
 import { useNavigation } from '@react-navigation/native';
 import { useCheckEmailExistsMutation } from '@store';
-import { Button, Center, FormControl, Input, KeyboardAvoidingView, Stack, WarningOutlineIcon } from 'native-base';
+import { Button, FormControl, Input, KeyboardAvoidingView, Stack, WarningOutlineIcon } from 'native-base';
 import { useCallback, useEffect } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { StyleSheet } from 'react-native';
@@ -50,12 +50,10 @@ export const CheckEmailExists = () => {
 
   return (
     <KeyboardAvoidingView style={styles.container}>
-      <Center style={styles.innerContainer}>
+      <ScreenContainer>
         <FormControl isInvalid={!!errors.email} marginY={3}>
           <Stack mx="4">
-            <FormControl.Label>
-              <Text style={styles.inputLabel}>Email </Text>
-            </FormControl.Label>
+            <FormLabel label="Email" />
             <Controller
               control={control}
               rules={{
@@ -68,6 +66,7 @@ export const CheckEmailExists = () => {
                   value={value}
                   placeholder="Enter email address"
                   keyboardType="email-address"
+                  focusOutlineColor={"orange.500"}
                 />
               )}
               name="email"
@@ -93,11 +92,11 @@ export const CheckEmailExists = () => {
           style={styles.submitButton}
           onPress={handleSubmit(onSubmit)}
           isLoading={isLoading}
-          isLoadingText={"Submitting"}
+          isLoadingText={"Submitting "}
         >
           {"Submit "}
         </Button>
-      </Center>
+      </ScreenContainer>
     </KeyboardAvoidingView>
   );
 };
@@ -105,14 +104,6 @@ export const CheckEmailExists = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-  },
-  inputLabel: {
-    fontWeight: "700",
-    color: "black",
-  },
-  innerContainer: {
-    flex: 1,
-    paddingHorizontal: 5,
   },
   submitButton: {
     borderRadius: 5,

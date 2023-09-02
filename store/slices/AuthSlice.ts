@@ -85,7 +85,6 @@ export const AuthSlice = createSlice({
       AuthApi.endpoints.verifyOtp.matchFulfilled,
       (state, { payload }) => {
         state.isEmailVerified = payload.isEmailVerified;
-        // saveEntryAsJson("userData", payload);
       }
     );
     builder.addMatcher(
@@ -99,6 +98,7 @@ export const AuthSlice = createSlice({
       AuthApi.endpoints.checkEmailExists.matchFulfilled,
       (state, { payload }) => {
         state.email = payload.email;
+        state.name = payload.name;
         state.token = payload.token;
         state.isEmailVerified = payload.isEmailVerified;
         state.isPasswordReset = true;

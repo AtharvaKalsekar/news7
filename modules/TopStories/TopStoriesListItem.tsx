@@ -8,8 +8,6 @@ import { StackNavProps } from 'StackNavigation';
 
 import { Screens } from '../../utils/constants';
 
-// import ImagePlaceholder from '../../assets/news_item_placeholder.png';
-
 type Props = {
   story: Article;
 };

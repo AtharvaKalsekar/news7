@@ -1,8 +1,8 @@
 import { useAlertToast } from '@hooks';
-import { ResendOTPButton } from '@modules';
+import { ResendOTPButton, ScreenContainer } from '@modules';
 import { useNavigation } from '@react-navigation/native';
 import { AuthState, RootState, useVerifyOtpMutation } from '@store';
-import { Button, Center, HStack, Input } from 'native-base';
+import { Button, HStack, Input } from 'native-base';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { KeyboardAvoidingView, StyleSheet } from 'react-native';
 import { useSelector } from 'react-redux';
@@ -61,7 +61,7 @@ export const VerifyOtp = () => {
 
   return (
     <KeyboardAvoidingView style={styles.container}>
-      <Center style={styles.innerContainer}>
+      <ScreenContainer>
         <HStack space={3} maxW="80%">
           {Array.from({ length: 6 }).map((elem, index) => {
             return (
@@ -83,25 +83,27 @@ export const VerifyOtp = () => {
                   start: value[index]?.length,
                   end: value[index]?.length,
                 }}
+                borderBottomWidth={2}
+                borderColor={"orange.500"}
               />
             );
           })}
         </HStack>
         <ResendOTPButton />
-      </Center>
-      <Button
-        w="70%"
-        my="10"
-        colorScheme={"orange"}
-        disabled={!isInputValid}
-        style={buttonStyles}
-        alignSelf="center"
-        onPress={onClickVerifyOtp}
-        isLoading={verifyOtpResult.isLoading}
-        isLoadingText="Verifying"
-      >
-        Verify OTP
-      </Button>
+        <Button
+          w="70%"
+          my="5"
+          colorScheme={"orange"}
+          disabled={!isInputValid}
+          style={buttonStyles}
+          alignSelf="center"
+          onPress={onClickVerifyOtp}
+          isLoading={verifyOtpResult.isLoading}
+          isLoadingText="Verifying "
+        >
+          Verify OTP
+        </Button>
+      </ScreenContainer>
     </KeyboardAvoidingView>
   );
 };
@@ -110,15 +112,10 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
   },
-  innerContainer: {
-    flex: 1,
-    paddingHorizontal: 5,
-  },
   inputBox: {
     textAlign: "center",
     fontSize: 24,
     fontWeight: "900",
     textAlignVertical: "center",
-    borderBottomWidth: 2,
   },
 });
