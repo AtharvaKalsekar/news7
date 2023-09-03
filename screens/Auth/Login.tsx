@@ -5,7 +5,7 @@ import { useLoginMutation } from '@store';
 import { Button, FormControl, Input, Link, Stack, Text, WarningOutlineIcon } from 'native-base';
 import React, { useCallback, useEffect, useMemo } from 'react';
 import { Controller, useForm } from 'react-hook-form';
-import { Image, KeyboardAvoidingView, StyleSheet } from 'react-native';
+import { KeyboardAvoidingView, StyleSheet } from 'react-native';
 import { StackNavProps } from 'StackNavigation';
 
 import { saveEntryAsJson } from '../../utils/AsyncStorage';
@@ -59,10 +59,6 @@ export const Login = () => {
   return (
     <KeyboardAvoidingView style={styles.container}>
       <ScreenContainer>
-        <Image
-          style={styles.image}
-          source={require("../../assets/news71-logo.png")}
-        />
         <FormControl isInvalid={!!errors.email} marginY={3}>
           <Stack mx="4">
             <FormLabel label="Email" />
