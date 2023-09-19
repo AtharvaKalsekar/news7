@@ -76,6 +76,7 @@ export const Internet = ({ children }: Props) => {
             style={{
               objectFit: "contain",
             }}
+            alt="no-signal-image"
           />
           <Button
             colorScheme={"orange"}

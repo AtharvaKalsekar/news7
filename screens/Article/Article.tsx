@@ -20,6 +20,7 @@ export const Article = () => {
         source={{
           uri: multimedia[0].url,
         }}
+        alt="article-image"
       />
       <Box style={styles.textContainer}>
         <ArticleTextView
